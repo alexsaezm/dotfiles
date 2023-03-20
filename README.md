@@ -28,3 +28,5 @@ make # clean first, then install all
 make install # just install!
 make clean # clean everything!
 ```
+
+If something odd is going on, you can increase the verbosity by tweaking the Makefile.
