@@ -6,10 +6,11 @@ if [ -f /etc/bashrc ]; then
 fi
 
 # User specific environment
-if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/bin:" ]]
+if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/.local/scripts:$HOME/bin:" ]]
 then
-    PATH="$HOME/.local/bin:$HOME/bin:$PATH"
+    PATH="$HOME/.local/bin:$HOME/.local/scripts:$HOME/bin:$PATH"
 fi
+
 export EDITOR="vim"
 export GOPATH="/home/alex/Developer"
 PATH="$GOPATH/bin:$PATH"

@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+# Documentation: https://docs.fedoraproject.org/en-US/fedora-accounts/user/
+
+FILE="armor.ccache"
+
+echo "Requesting Fedora kerberos ticket"
+pushd /tmp/
+rm $FILE
+kinit -n @FEDORAPROJECT.ORG -c FILE:$FILE
+kinit -T FILE:$FILE alexsaezm@FEDORAPROJECT.ORG
+popd
+
