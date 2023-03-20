@@ -1,0 +1,25 @@
+[user]
+  name = Alejandro Sáez
+  email = asm@redhat.com
+
+[includeIf "gitdir:~/Developer/src/github.com/alexsaezm/"]
+  path = ~/.gitconfig_personal
+
+[includeIf "gitdir:~/Developer/src/github.com/alexsaezm/md2man-rpm"]
+  path = ~/.gitconfig_upstream
+
+[includeIf "gitdir:~/Developer/src/github.com/go-delve/"]
+  path = ~/.gitconfig_upstream
+
+[core]
+	excludesFile = ~/.gitignore
+[pull]
+	rebase = false
+[credential]
+	helper = "!f() { /home/alex/.vscode-server/bin/92da9481c0904c6adfe372c12da3b7748d74bdcb/node /tmp/vscode-remote-containers-81014c00-d96f-41f9-9fad-964c6d5ce08a.js git-credential-helper $*; }; f"
+[init]
+	defaultBranch = main
+[alias]
+	wt = worktree add -b
+[blame]
+	coloring = highlightRecent
