@@ -18,6 +18,8 @@ sudo dnf install stow stow-doc -y
 
 A lot of other programs might be needed. But the purpose of this repository is to configure the programs, not to install them.
 
+Be careful with the stuff you add to the top level on the repository, some items can be "installed" if they are not part of the [default ignore list](https://www.gnu.org/software/stow/manual/html_node/Types-And-Syntax-Of-Ignore-Lists.html).
+
 ## How to use this repository
 
 By default, stow operates on the parent of the folder. I don't clone repositories in my home folder hence I need to specify the place where I want the dotfiles, my home folder.
