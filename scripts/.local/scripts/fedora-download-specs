@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+# Downloads all the spec files and extract them on /tmp/rpm-specs
+
+pushd /tmp
+wget https://src.fedoraproject.org/lookaside/rpm-specs-latest.tar.xz
+tar -xvJpf rpm-specs-latest.tar.xz
+popd
+
