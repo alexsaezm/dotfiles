@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+# This script generates an srpm and uploads it and the specfile to fedorapeople.org
+# so it can be use in a review process. Then it generates the message you should include
+# in bugzilla.
+# There are multiple scenarios where this script will fail, like multi-specfile repositories
+# But that is not what I usually work with. If you have suggestions, feel free to modify :)
+
+set -e
+
+USER="alexsaezm"
+SPECFILE=`ls *.spec`
+SRPMFILE=`fedpkg srpm | grep "Wrote" | cut -d ":" -f 2`
+DIR="~/public_html/rpms/${SPECFILE%.*}"
+URL="https://$USER.fedorapeople.org/rpms/${SPECFILE%.*}"
+
+ssh fedorapeople.org "mkdir -p $DIR"
+
+# fedorapeople.org is the host name in my ~/.ssh/config
+scp $SPECFILE fedorapeople.org:$DIR
+scp $SRPMFILE fedorapeople.org:$DIR
+
+echo "Spec URL: $URL/$SPECFILE"
+echo "SRPM URL: $URL/$(basename $SRPMFILE)"
+echo "Description: <Put here the description of the package>"
+echo "Fedora Account System Username: $USER"
+
