@@ -17,7 +17,10 @@
 	rebase = false
 [init]
 	defaultBranch = main
-[alias]
-	wt = worktree add -b
 [blame]
 	coloring = highlightRecent
+[alias]
+    # Inspired by https://blog.cryptomilk.org/2023/02/10/sliced-bread-git-worktree-and-bare-repo
+    worktree-add = "!f() { git branch -f $1 $2; git worktree add $1 $1; }; f"
+    worktree-add-main = "!f() { git branch -f $1 origin/$(git remote show origin | awk '/HEAD branch/ {print $NF}'); git worktree add $1 $1; }; f"
+    worktree-remove = "!f() { git worktree remove -f $1; git branch -D $1; }; f"
