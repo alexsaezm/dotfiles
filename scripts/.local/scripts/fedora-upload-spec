@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# This script generates an srpm and uploads it and the specfile to fedorapeople.org
+# This script generates a srpm and uploads it and the specfile to fedorapeople.org
 # so it can be use in a review process. Then it generates the message you should include
 # in bugzilla.
 # There are multiple scenarios where this script will fail, like multi-specfile repositories
@@ -24,4 +24,3 @@ echo "Spec URL: $URL/$SPECFILE"
 echo "SRPM URL: $URL/$(basename $SRPMFILE)"
 echo "Description: <Put here the description of the package>"
 echo "Fedora Account System Username: $USER"
-
