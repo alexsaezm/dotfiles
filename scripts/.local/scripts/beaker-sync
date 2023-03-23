@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+# Runs rsync on change, syncing the current folder including the path to the destination.
+# It uses the current path relative to HOME unless it's outside HOME, like /usr/lib, for example.
+# By default, the name of the HOST is beaker (defined it on ~/.ssh/config) but can be change:
+# HOST=<another_host> <this_script>
+#
+# Dependencies: inotify-tools -> sudo dnf install inotify-tools
+
+DST=`realpath --relative-to="$HOME" .`
+HOST=${HOST:-beaker}
+
+while inotifywait -r -e modify,create,delete,move ./; do
+    clear # Clears the output so I only see the last run
+    rsync -avz --delete --rsync-path="mkdir -p $DST; rsync" . $HOST:$DST;
+    echo -e "\033[0;31mReady\033[0m"
+done
