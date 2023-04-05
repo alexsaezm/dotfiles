@@ -3,7 +3,8 @@ local lsp = require("lsp-zero")
 lsp.preset("recommended")
 
 lsp.ensure_installed({
-    'gopls'
+    'gopls',
+    'ansiblels'
 })
 
 -- Fix Undefined global 'vim'
@@ -16,7 +17,6 @@ lsp.configure('lua-language-server', {
         }
     }
 })
-
 
 local cmp = require('cmp')
 local cmp_select = {behavior = cmp.SelectBehavior.Select}
@@ -46,12 +46,13 @@ lsp.set_preferences({
 
 lsp.on_attach(function(client, bufnr)
     local opts = {buffer = bufnr, remap = false}
-
     vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
 
 end)
 
 lsp.setup()
+
+vim.cmd('autocmd BufRead,BufNewFile *.yml set filetype=yaml.ansible')
 
 vim.diagnostic.config({
     virtual_text = true
