@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+# Run Telegram from Flatpak and discard the whole output
+flatpak run org.telegram.desktop > /dev/null 2>&1 &
+
