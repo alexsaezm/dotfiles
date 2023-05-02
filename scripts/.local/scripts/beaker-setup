@@ -1,0 +1,25 @@
+#!/usr/bin/ansible-playbook -i beaker,
+# vi: ft=yaml:
+
+# Install multiple packages I normally need for working on bugs, it also
+# installs upstream go so I can verify against different compiler versions
+
+---
+- hosts: beaker
+  tasks:
+    - name: "Install packages"
+      dnf:
+        name:
+          - '@Development tools'
+          - '@RPM Development Tools'
+          - git
+          - rsync
+          - tmux
+          - jq
+          - go-toolset
+        state: present
+    - name: "Install gotip"
+      command: go install golang.org/dl/gotip@latest
+    - name: "Install upstream go"
+      command: gotip download release-branch.go1.20
+
