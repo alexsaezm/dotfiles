@@ -17,9 +17,23 @@
           - tmux
           - jq
           - go-toolset
+          - lsof
         state: present
-    - name: "Install gotip"
-      command: go install golang.org/dl/gotip@latest
+
+    - name: "Check if upstream go is installed"
+      command: gotip version
+      register: gotip_version_output
+      changed_when: false
+      ignore_errors: true
+
+    - name: "Set fact if upstream go is already installed"
+      set_fact:
+        upstream_go_installed: true
+      when: gotip_version_output.rc == 0
+
     - name: "Install upstream go"
-      command: gotip download release-branch.go1.20
+      block:
+        - command: go install golang.org/dl/gotip@latest
+        - command: gotip download release-branch.go1.20
+      when: upstream_go_installed is not defined
 
