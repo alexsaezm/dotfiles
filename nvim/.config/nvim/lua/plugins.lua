@@ -57,6 +57,18 @@ return require('packer').startup(function(use)
 
         }
     }
+    -- Install dap support
+    use {
+        'mfussenegger/nvim-dap',
+        requires = {
+            {'theHamsta/nvim-dap-virtual-text'},
+            {'rcarriga/nvim-dap-ui'},
+            {'nvim-telescope/telescope-dap.nvim'},
+        },
+        ft = {'go', 'lua'},
+        version = '*',
+    }
+
 
     -- Avoid using Escape that much
     -- lua with packer.nvim
@@ -72,6 +84,9 @@ return require('packer').startup(function(use)
 
     -- Fuzzy Finder (files, lsp, etc)
     use { 'nvim-telescope/telescope.nvim', branch = '0.1.x', requires = { 'nvim-lua/plenary.nvim' } }
+
+    -- Harpoon is a plugin for easily saving and jumping to bookmarks in your code.
+    use { 'ThePrimeagen/harpoon', requires = { 'nvim-lua/plenary.nvim' } }
 
     -- Git related plugins
     use 'tpope/vim-fugitive'
