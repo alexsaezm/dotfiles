@@ -6,11 +6,18 @@ PACKAGES := $(wildcard */)
 
 all: clean install 
 
+# stow doesn't allow to override an existing file, so we need to adopt them
+# which will change the git project and then restore it to the previous state
+# it's a bit hacky but it works. Don't use unless it's necessary.
+bootstrap:
+	@stow --adopt --target=${HOME} --verbose=$(VERBOSE_LEVEL) $(PACKAGES)
+	@git restore .
+
 install:
 	@stow --target=${HOME} --verbose=$(VERBOSE_LEVEL) $(PACKAGES)
 
 clean: 
 	@stow --delete --target=${HOME} --verbose=$(VERBOSE_LEVEL) $(PACKAGES)
 
-.PHONY: all install clean
+.PHONY: all bootstrap install clean
 
