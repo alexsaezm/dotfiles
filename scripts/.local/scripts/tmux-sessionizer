@@ -5,7 +5,7 @@
 if [[ $# -eq 1 ]]; then
     selected=$1
 else
-    selected=$(find ~/Developer/src/ -mindepth 3 -maxdepth 3 -type d | fzf)
+    selected=$(find ~/Code/src/ -mindepth 3 -maxdepth 3 -type d | fzf)
 fi
 
 if [[ -z $selected ]]; then
