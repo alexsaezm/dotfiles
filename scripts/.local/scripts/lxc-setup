@@ -1,0 +1,43 @@
+#!/usr/bin/env ansible-playbook
+# vi: ft=yaml:
+
+---
+- hosts: localhost
+  become: true
+  vars:
+    interface: lxcbr0
+  tasks:
+  - name: Install lxc packages
+    package:
+      name: "{{ item }}"
+    with_items:
+      - lxc
+      - python3-lxc
+      - lxc-templates
+      - lxc-doc
+      -  libcgroup-pam
+      -  libcgroup-tools
+      -  libcgroup
+  - name: Install lxc network dependencies
+    package:
+      name: dnsmasq
+  - name: Configure lxc network
+    lineinfile:
+      path: /etc/sysconfig/lxc
+      regex: ^USE_LXC_BRIDGE=
+      line: USE_LXC_BRIDGE="true"
+  - name: Start lxc-net by default
+    systemd:
+      name: lxc-net
+      state: started
+      enabled: yes
+  - name: Create the fedora-lab container
+    lxc_container:
+      name: fedora-lab
+      template: download
+      template_options: "--dist=fedora --release=38 --arch=amd64"
+      fs_type: xfs
+      fs_size: 256G
+      state: stopped
+      backing_store: btrfs
+

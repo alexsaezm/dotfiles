@@ -10,6 +10,8 @@
 DST=`realpath --relative-to="$HOME" .`
 HOST=${HOST:-beaker}
 
+# First run always syncs
+rsync -avz --delete --rsync-path="mkdir -p $DST; rsync" . $HOST:$DST;
 while inotifywait -r -e modify,create,delete,move ./; do
     clear # Clears the output so I only see the last run
     rsync -avz --delete --rsync-path="mkdir -p $DST; rsync" . $HOST:$DST;
