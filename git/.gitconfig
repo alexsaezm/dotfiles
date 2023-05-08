@@ -2,13 +2,13 @@
   name = Alejandro Sáez
   email = asm@redhat.com
 
-[includeIf "gitdir:~/Developer/src/github.com/alexsaezm/"]
+[includeIf "gitdir:~/Code/src/github.com/alexsaezm/"]
   path = ~/.gitconfig_personal
 
-[includeIf "gitdir:~/Developer/src/github.com/alexsaezm/md2man-rpm"]
+[includeIf "gitdir:~/Code/src/github.com/alexsaezm/md2man-rpm"]
   path = ~/.gitconfig_upstream
 
-[includeIf "gitdir:~/Developer/src/github.com/go-delve/"]
+[includeIf "gitdir:~/Code/src/github.com/go-delve/"]
   path = ~/.gitconfig_upstream
 
 [core]
