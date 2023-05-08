@@ -75,6 +75,7 @@
           - python3-libselinux
           - sssd
           - krb5-workstation
+          - xsetroot
         state: present
       become: true
 
