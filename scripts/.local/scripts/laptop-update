@@ -72,6 +72,9 @@
           - blueman
           - 1password
           - 1password-cli
+          - python3-libselinux
+          - sssd
+          - krb5-workstation
         state: present
       become: true
 
@@ -106,4 +109,15 @@
         dest: /usr/bin/vim
         state: link
       become: true
+
+    - name: "Make Firefox fit for Kerberos"
+      lineinfile:
+        dest: /etc/firefox/syspref.js
+        line: 'pref("{{ item }}", ".redhat.com");'  # lockPref instead of pref would be also possible
+        create: true
+      loop:
+      - network.negotiate-auth.delegation-uris
+      - network.negotiate-auth.trusted-uris
+      become: true
+
 
