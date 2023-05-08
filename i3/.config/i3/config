@@ -39,9 +39,6 @@ exec --no-startup-id nm-applet
 # blueman-applet is a system tray GUI for bluetooth.
 exec --no-startup-id blueman-applet
 
-# volumeicon is a volume control applet for PulseAudio.
-exec --no-startup-id volumeicon
-
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
@@ -78,6 +75,9 @@ bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
+# Iterate between the last two workspaces
+bindsym $mod+Tab workspace back_and_forth
+
 # split in horizontal orientation
 # I want to use ", but I need to learn how to write it
 bindsym $mod+z split h
@@ -112,6 +112,12 @@ bindsym $mod+a focus parent
 
 # focus the child container
 #bindsym $mod+d focus child
+
+# focus on the urgent workspace
+bindsym $mod+u [urgent=latest] focus
+
+# Take a screenshot upon pressing $mod+x (select an area with the mouse)
+bindsym --release $mod+x exec --no-startup-id import ~/Pictures/Screenshots/screenshot-$(date -Is).png
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
@@ -150,12 +156,46 @@ bindsym $mod+Shift+8 move container to workspace number $ws8
 bindsym $mod+Shift+9 move container to workspace number $ws9
 bindsym $mod+Shift+0 move container to workspace number $ws10
 
+# In order to get the class of a window, you can use xprop and find the WM_CLASS entry 
+# The first part of the WM_CLASS is the instance, the second part is the class
+
+# Assign Xfce4-terminal to workspace 1
+assign [class="Xfce4-terminal"] $ws1
+# Assign Firefox to workspace 2
+assign [class="firefox"] $ws2
+# Assign Thunderbird to workspace 3
+assign [class="thunderbird"] $ws3
+# Assign Slack to workspace 4
+assign [class="Slack"] $ws4
+# Assign Element to workspace 5
+assign [class="Element"] $ws5
+# Assign Telegram to workspace 9
+assign [class="Telegram"] $ws9
+# Assign VLC to workspace 10
+assign [class="vlc"] $ws10
+
 # reload the configuration file
 bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+# shutdown the system
+bindsym $mod+Shift+s exec "i3-nagbar -t warning -m 'You pressed the shutdown shortcut. Do you really want to shutdown your computer?' -B 'Yes, shutdown' 'sudo shutdown -h now'"
+
+# Press $mod+o followed by either f, t, Escape or Return to launch firefox,
+# thunderbird or return to the default mode, respectively.
+set $mode_launcher Launch: [f]irefox [t]hunar [Escape] Cancel
+bindsym $mod+o mode "$mode_launcher"
+
+mode "$mode_launcher" {
+    bindsym f exec firefox
+    bindsym t exec thunar
+
+    bindsym Escape mode "default"
+    bindsym Return mode "default"
+    bindsym $mod+o mode "default"
+}
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -196,5 +236,6 @@ client.background       #FFFFFF
 show_marks yes
 
 bar {
+    position top
     status_command i3status
 }

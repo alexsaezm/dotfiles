@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+# Run Element from Flatpak and discard the whole output
+flatpak run im.riot.Riot > /dev/null 2>&1 &
+

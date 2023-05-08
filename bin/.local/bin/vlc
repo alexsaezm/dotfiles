@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+# Run VLC from Flatpak and discard the whole output
+flatpak run org.videolan.VLC > /dev/null 2>&1 &
+
