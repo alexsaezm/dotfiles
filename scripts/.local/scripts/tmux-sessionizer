@@ -12,7 +12,9 @@ if [[ -z $selected ]]; then
     exit 0
 fi
 
-selected_name=$(basename "$selected" | tr . _)
+# Remember to increase the size of the session name field
+# set -g status-left-length 50
+selected_name="$(basename "$(dirname "$selected")")/$(basename "$selected" | tr . _)"
 tmux_running=$(pgrep tmux)
 
 if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
