@@ -55,6 +55,7 @@
           - rsync
           - tmux
           - jq
+          - ripgrep
           - golang
           - delve
           - lsof
