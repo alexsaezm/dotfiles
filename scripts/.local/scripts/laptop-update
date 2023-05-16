@@ -76,6 +76,7 @@
           - sssd
           - krb5-workstation
           - xsetroot
+          - inotify-tools
         state: present
       become: true
 
