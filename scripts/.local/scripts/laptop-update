@@ -56,6 +56,7 @@
           - tmux
           - jq
           - ripgrep
+          - scl-utils-build
           - golang
           - delve
           - lsof
