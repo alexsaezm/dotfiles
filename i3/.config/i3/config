@@ -53,7 +53,7 @@ bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOU
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Return exec alacritty
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -162,10 +162,10 @@ bindsym $mod+Shift+0 move container to workspace number $ws10
 # In order to get the class of a window, you can use xprop and find the WM_CLASS entry 
 # The first part of the WM_CLASS is the instance, the second part is the class
 
-# Assign Xfce4-terminal to workspace 1
-assign [class="Xfce4-terminal"] $ws1
-# Assign Firefox to workspace 2
-assign [class="firefox"] $ws2
+# Assign Alacritty to workspace 1
+assign [class="Alacritty"] $ws1
+# Assign Chrome to workspace 2
+assign [class="Google-chrome"] $ws2
 # Assign Thunderbird to workspace 3
 assign [class="thunderbird"] $ws3
 # Assign Slack to workspace 4
@@ -185,20 +185,6 @@ bindsym $mod+Shift+r restart
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 # shutdown the system
 bindsym $mod+Shift+s exec "i3-nagbar -t warning -m 'You pressed the shutdown shortcut. Do you really want to shutdown your computer?' -B 'Yes, shutdown' 'sudo shutdown -h now'"
-
-# Press $mod+o followed by either f, t, Escape or Return to launch firefox,
-# thunderbird or return to the default mode, respectively.
-set $mode_launcher Launch: [f]irefox [t]hunar [Escape] Cancel
-bindsym $mod+o mode "$mode_launcher"
-
-mode "$mode_launcher" {
-    bindsym f exec firefox
-    bindsym t exec thunar
-
-    bindsym Escape mode "default"
-    bindsym Return mode "default"
-    bindsym $mod+o mode "default"
-}
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
