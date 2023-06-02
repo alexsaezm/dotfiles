@@ -68,6 +68,8 @@ return require('packer').startup(function(use)
         ft = {'go', 'lua'},
         version = '*',
     }
+    -- dnf install zeal
+    use('KabbAmine/zeavim.vim')
 
 
     -- Avoid using Escape that much
