@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+# After cloning a Fedora package, run this from inside the folder
+# Thanks to Mikel https://mikel.olasagasti.info
+
+FAS="alexsaezm"
+PACKAGE=$(fedpkg --release rawhide verrel | pkgname)
+PACKAGES=$(dnf repoquery --repo=rawhide{,-source} --whatrequires $PACKAGE | grep '\.src$' | pkgname | sort -u)
+PACKAGES_NUM=$(dnf repoquery --repo=rawhide{,-source} --whatrequires $PACKAGE | grep '\.src$' | pkgname | sort -u | wc -l)
+
+fedpkg fork
+
+copr create $PACKAGE --appstream=off --repo='http://kojipkgs.fedoraproject.org/repos/rawhide/latest/$basearch/' --chroot fedora-rawhide-x86_64 --delete-after-days 2
+copr add-package-distgit $PACKAGE --name $PACKAGE --commit $(git branch --show-current) --namespace forks/$FAS --webhook-rebuild on
+copr build-package $PACKAGE --name $PACKAGE
+
+# I'm not using a numeric evaluation of PACKAGES because it always contains one item for some reason
+if [[ $PACKAGES_NUM -eq 0 ]]; then
+    echo "$PACKAGE has no dependencies"
+else
+    parallel copr add-package-distgit $PACKAGE --webhook-rebuild on --commit rawhide --name -- ${#PACKAGES[@]}
+    parallel copr build-package $PACKAGE --background --nowait --name -- ${#PACKAGES[@]}
+fi
+
