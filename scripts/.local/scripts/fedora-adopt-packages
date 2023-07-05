@@ -1,0 +1,62 @@
+#!/usr/bin/env python3
+
+# Given a list of packages (using the command line), it checks if the packages are orphan and in that case,
+# it adopts them.
+# It reads the token from the ~/.config/rpkg/fedpkg.conf file, so you need to have fedpkg properly configured
+
+import sys
+import requests
+import json
+import configparser
+import os
+
+def process_file_content(filename, token):
+    try:
+        with open(filename, 'r') as file:
+            for package_name in file:
+                is_package_orphaned = is_orphan(package_name.rstrip())
+                if is_package_orphaned:
+                    print(f"The package '{package_name.rstrip()}' is orphaned.")
+                    take_package(package_name.rstrip(), token)
+                else:
+                    print(f"The package '{package_name.rstrip()}' is not orphaned.")
+    except FileNotFoundError:
+        print("File not found:", filename)
+
+def is_orphan(package_name):
+    url = 'https://src.fedoraproject.org/api/0/rpms/' + package_name
+    response = requests.get(url)
+    if response.status_code == 200:
+        data = response.json()
+        if "access_users" in data and "owner" in data["access_users"] and "orphan" in data["access_users"]["owner"]:
+            return True
+    return False
+
+def take_package(package_name, token):
+    # This URL is not documented AFAIK but I found it in the ajax petition in the webpage.
+    url = 'https://src.fedoraproject.org/_dg/take_orphan/rpms/' + package_name
+    headers = {
+        "Authorization": f"token {token}",
+        "Content-Type": "application/x-www-form-urlencoded",
+    }
+    response = requests.post(url, headers=headers)
+    if response.status_code == 200:
+        print(f"The package '{package_name}' has been successfully updated.")
+    else:
+        print(f"Failed to update the package '{package_name}'. Error: {response.status_code}")
+
+if len(sys.argv) < 2:
+    print("Please provide a filename as a command line argument.")
+else:
+    filename = sys.argv[1]
+    # Read the token from the configuration file
+    config = configparser.ConfigParser()
+    config_file = os.path.expanduser('~/.config/rpkg/fedpkg.conf')
+    config.read(config_file)
+    token = config.get('fedpkg.distgit', 'token', fallback='')
+    # Check if the token exists
+    if not token:
+        print("Token not found in the configuration file.")
+        sys.exit(1)
+    process_file_content(filename, token)
+
