@@ -1,0 +1,54 @@
+#!/usr/bin/env python3
+
+# Queries the user dashboard and lists the open bugs for each package
+# Allows simple stuff witht the command line, like checking for new package updates:
+# fedora-user-report USERNAME | grep "is available" -A1
+
+import argparse
+import requests
+from colorama import Fore, Style
+import sys
+
+parser = argparse.ArgumentParser()
+parser.add_argument("username", help="The username for the packager dashboard")
+args = parser.parse_args()
+
+username = args.username
+url = f"https://packager-dashboard.fedoraproject.org/api/v1/packager_dashboard/{username}"
+
+response = requests.get(url)
+data = response.json()
+
+# Check if stdout goes to a file so later we can disable the colors
+disable_colors = not sys.stdout.isatty()
+
+if "bzs" in data and "data" in data["bzs"]:
+    bzs_data = data["bzs"]["data"]
+
+    if "static_info" in data and "data" in data["static_info"]:
+        static_info_data = data["static_info"]["data"]
+
+        if "primary_packages" in static_info_data:
+            primary_packages = static_info_data["primary_packages"]
+
+            for package_name in primary_packages:
+                if package_name in bzs_data:
+                    open_bugs = bzs_data[package_name]
+                    if open_bugs:
+                        if not disable_colors:
+                            print(Fore.GREEN + f"Package: {package_name}" + Style.RESET_ALL)
+                            print(Fore.CYAN + "Open Bugs:" + Style.RESET_ALL)
+                            for bug in open_bugs:
+                                print(Fore.YELLOW + f"  Title: {bug['title']}" + Style.RESET_ALL)
+                                print(Fore.BLUE + f"  URL: {bug['url']}" + Style.RESET_ALL)
+                                print()
+                        else:
+                            print(f"Package: {package_name}")
+                            print("Open Bugs:")
+                            for bug in open_bugs:
+                                print(f"  Title: {bug['title']}")
+                                print(f"  URL: {bug['url']}")
+                                print()
+else:
+    print("No 'bzs' field or 'data' array found in the JSON.")
+
