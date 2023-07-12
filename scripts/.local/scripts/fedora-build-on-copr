@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+FAS="alexsaezm"
+DELETE_AFTER_DAYS=5
+
+# Finds the correct name of the package
+PACKAGE_NAME=$(fedpkg verrel | pkgname)
+
+# Get the current branch name
+CURRENT_BRANCH=$(git branch --show-current)
+
+# Unless we are in a fXX branch, use rawhide for the release. This doesn't work on ELN branches for example.
+RELEASE="rawhide"
+CHROOT="rawhide"
+if [[ $CURRENT_BRANCH =~ ^f[0-9]+ ]]; then
+    RELEASE="$CURRENT_BRANCH-build"
+    CHROOT=$(echo $CURRENT_BRANCH | sed 's/f//')
+fi
+
+COPR_PROJECT="testing-$PACKAGE_NAME-on-$RELEASE"
+
+# Creates the COPR project and mark it to be deleted after DELETE_AFTER_DAYS
+copr create $COPR_PROJECT --appstream=off --repo="http://kojipkgs.fedoraproject.org/repos/$RELEASE/latest/\$basearch/" --delete-after-days $DELETE_AFTER_DAYS --fedora-review --chroot fedora-$CHROOT-x86_64
+
+# Now we need to add the package to the project
+copr add-package-distgit $COPR_PROJECT --name $PACKAGE_NAME --commit $CURRENT_BRANCH --webhook-rebuild on
+
+# And now, we can build it
+copr build-package $COPR_PROJECT --name $PACKAGE_NAME
+
