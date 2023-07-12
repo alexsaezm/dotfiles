@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+# Remmeber to try also with -devel
+package=$1
+packages=(`repoquery --repo=fedora{,-source} --whatrequires $package | grep src$ | pkgname | sort | uniq`)
+list_path="/tmp/whatrequires-$package.txt"
+printf '%s\n' "${packages[@]}" > $list_path
+echo "$package is a dependency of ${#packages[@]} packages"
+echo "The list has been stored in $list_path"
