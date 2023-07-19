@@ -1,0 +1,58 @@
+#!/usr/bin/env python3
+
+# Opens an interactive prompt using the given PDF.
+# It reads the token from the ~/.config/aigrep.conf file
+# The format of the aigrep.conf file is as follows:
+# [openai]
+# api_key = <YOUR KEY>
+
+import PyPDF2
+import configparser
+import openai
+import os
+import sys
+
+def to_text(filename):
+    text = ""
+    with open(filename, "rb") as file:
+        pdf_reader = PyPDF2.PdfReader(file)
+        for page_num in range(len(pdf_reader.pages)):
+            page = pdf_reader.pages[page_num]
+            text += page.extract_text()
+    return text
+
+def ask_openai(text, token):
+    response = openai.Completion.create(
+        engine="text-davinci-003",
+        prompt=text,
+        max_tokens=4097,
+        temperature=0.5,
+    )
+    return response.choices[0].text.strip()
+
+def open_prompt(text, token):
+    openai.api_key = token
+    out = ask_openai(text, token)
+    while True:
+        user_input = input("> ")
+        if user_input.lower() == 'exit':
+            break
+        out = ask_openai(user_input, token)
+        print(out)
+
+
+if len(sys.argv) < 2:
+    print("Please provide a pdf as a command line argument.")
+else:
+    filename = sys.argv[1]
+    # Read the token from the configuration file
+    config = configparser.ConfigParser()
+    config_file = os.path.expanduser('~/.config/aigrep.conf')
+    config.read(config_file)
+    token = config.get('openai', 'api_key', fallback='')
+    # Check if the token exists
+    if not token:
+        print("API key not found in the configuration file.")
+        sys.exit(1)
+    text = to_text(filename)
+    open_prompt(text, token)
