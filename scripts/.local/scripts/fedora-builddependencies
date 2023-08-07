@@ -1,13 +1,22 @@
 #!/usr/bin/env bash
 
+# This script tries to build on copr a package and all of the packages that requires it.
+# It prints a lot of noise and if some of the stuff already exists it prints errors but just wait until it exists.
+# Trust me(R).
+# By default it only creates a x86_64 chroot but you can avoid this limitation by previously creating the copr project.
+#
+# It requires a lot of tools like fedpkg and parallel.
 # After cloning a Fedora package, run this from inside the folder
 # Thanks to Mikel https://mikel.olasagasti.info
 
 FAS="alexsaezm"
 PACKAGE=$(fedpkg --release rawhide verrel | pkgname)
-PACKAGES=$(dnf repoquery --repo=rawhide{,-source} --whatrequires $PACKAGE | grep '\.src$' | pkgname | sort -u)
-PACKAGES_NUM=$(dnf repoquery --repo=rawhide{,-source} --whatrequires $PACKAGE | grep '\.src$' | pkgname | sort -u | wc -l)
+# Lists all of the packages provided by PACKAGE, for some reason, --nevra doesn't print a proper nevra, hence the sed magic
+PROVIDES=$(dnf repoquery --repo=rawhide{,-source} --provides --nevra $PACKAGE | sed 's/ = /-/' | pkgname)
+PACKAGES=$(parallel dnf repoquery --repo=rawhide{,-source} --whatrequires ::: $PROVIDES | grep '\.src$' | pkgname | sort -u)
+PACKAGES_NUM=$(parallel dnf repoquery --repo=rawhide{,-source} --whatrequires ::: $PROVIDES | grep '\.src$' | pkgname | sort -u | wc -l)
 
+# Not really necessary but it doesn't hurt to do it from the fork
 fedpkg fork
 
 copr create $PACKAGE --appstream=off --repo='http://kojipkgs.fedoraproject.org/repos/rawhide/latest/$basearch/' --chroot fedora-rawhide-x86_64 --delete-after-days 2
@@ -18,7 +27,7 @@ copr build-package $PACKAGE --name $PACKAGE
 if [[ $PACKAGES_NUM -eq 0 ]]; then
     echo "$PACKAGE has no dependencies"
 else
-    parallel copr add-package-distgit $PACKAGE --webhook-rebuild on --commit rawhide --name -- ${#PACKAGES[@]}
-    parallel copr build-package $PACKAGE --background --nowait --name -- ${#PACKAGES[@]}
+    parallel copr add-package-distgit $PACKAGE --webhook-rebuild on --commit rawhide --name ::: $PACKAGES
+    parallel copr build-package $PACKAGE --background --nowait --name ::: $PACKAGES
 fi
 
