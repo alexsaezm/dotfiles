@@ -51,8 +51,8 @@ exec --no-startup-id $term
 # It's always nice to have a file explorer at hand
 exec --no-startup-id thunar
 
-# I use Zeal for reading documentation
-exec --no-startup-id zeal
+# I use Obsidian for taking notes
+exec --no-startup-id obsidian
 
 # I use Thunderbird for reading emails
 exec --no-startup-id thunderbird
@@ -151,7 +151,7 @@ set $ws3 "3: mail"
 set $ws4 "4: slack"
 set $ws5 "5: irc"
 set $ws6 "6: files"
-set $ws7 "7: docs"
+set $ws7 "7: notes"
 set $ws8 "8: obs"
 set $ws9 "9: chat"
 set $ws10 "10: music"
@@ -199,8 +199,8 @@ assign [class="Slack"] $ws4
 assign [class="Element"] $ws5
 # Assign Thunar to workspace 6
 assign [class="Thunar"] $ws6
-# Assign Zeal to workspace 7
-assign [class="Zeal"] $ws7
+# Assign Obsidian to workspace 7
+assign [class="obsidian"] $ws7
 # Assign OBS to workspace 8
 assign [class="obs"] $ws8
 # Assign Telegram to workspace 9
