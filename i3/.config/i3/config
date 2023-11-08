@@ -140,8 +140,10 @@ bindsym $mod+a focus parent
 # focus on the urgent workspace
 bindsym $mod+u [urgent=latest] focus
 
-# Take a screenshot upon pressing $mod+x (select an area with the mouse)
-bindsym --release $mod+x exec --no-startup-id import ~/Pictures/Screenshots/screenshot-$(date -Is).png
+# Take a screenshot of the active window upon pressing $mod+x
+bindsym --release $mod+x exec --no-startup-id xfce4-screenshooter --save ~/Pictures/Screenshots/"Screenshot $(date -Is).png" --no-border --window
+# Take a screenshot upon pressing $mod+Shift+x (select an area with the mouse)
+bindsym --release $mod+Shift+x exec --no-startup-id xfce4-screenshooter --save ~/Pictures/Screenshots/"Screenshot $(date -Is).png" --no-border --region
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
