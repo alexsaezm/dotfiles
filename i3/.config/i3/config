@@ -146,7 +146,7 @@ bindsym $mod+u [urgent=latest] focus
 #       the time separated with :. As I never check the date of a screenshot and what
 #       I truly want is to be able to sort them I started using the UNIX Epoch.
 #       Nobody can read that, but hey, you got it sorted :P
-#       I only take two kinds of screenshots, region or whole window. Instead of using
+#       I only take two kinds of screenshots, region or whole window.
 #
 #       In case I need it, the regexp for the name is: ^s\d+[rw]\.png$
 #
