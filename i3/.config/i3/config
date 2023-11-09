@@ -140,10 +140,28 @@ bindsym $mod+a focus parent
 # focus on the urgent workspace
 bindsym $mod+u [urgent=latest] focus
 
-# Take a screenshot of the active window upon pressing $mod+x
-bindsym --release $mod+x exec --no-startup-id xfce4-screenshooter --save ~/Pictures/Screenshots/"Screenshot $(date -Is).png" --no-border --window
+# Screenshots
+# Note: Some editors don't work well with : in links (for example, Obsidian
+#       doesn't include the file and fails silently). ISO 8601 (ex: date -Is) prints
+#       the time separated with :. As I never check the date of a screenshot and what
+#       I truly want is to be able to sort them I started using the UNIX Epoch.
+#       Nobody can read that, but hey, you got it sorted :P
+#       I only take two kinds of screenshots, region or whole window. Instead of using
+#
+#       In case I need it, the regexp for the name is: ^s\d+[rw]\.png$
+#
+
 # Take a screenshot upon pressing $mod+Shift+x (select an area with the mouse)
-bindsym --release $mod+Shift+x exec --no-startup-id xfce4-screenshooter --save ~/Pictures/Screenshots/"Screenshot $(date -Is).png" --no-border --region
+bindsym --release $mod+x exec --no-startup-id xfce4-screenshooter --save ~/Pictures/Screenshots/"s$(date +'%s')r.png" --no-border --region
+# Take a screenshot of the active window upon pressing $mod+x
+bindsym --release $mod+Shift+x exec --no-startup-id xfce4-screenshooter --save ~/Pictures/Screenshots/"s$(date +'%s')w.png" --no-border --window
+
+# Open a new terminal with the title Journal running jrnl and move it to workspace 7
+bindsym $mod+j exec --no-startup-id alacritty -t Journal -e jrnl
+for_window [class="Alacritty" title="Journal"] move window to workspace $ws7 focus
+
+# Set the default workspace layout to stacking
+workspace_layout stacking
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
