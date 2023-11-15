@@ -152,9 +152,9 @@ bindsym $mod+u [urgent=latest] focus
 #
 
 # Take a screenshot upon pressing $mod+Shift+x (select an area with the mouse)
-bindsym --release $mod+x exec --no-startup-id xfce4-screenshooter --save ~/Pictures/Screenshots/"s$(date +'%s')r.png" --no-border --region
+bindsym --release $mod+x exec --no-startup-id xfce4-screenshooter --save ~/Pictures/Screenshots/"s$(date +'%s')r.png" --no-border --region && add2recent ~/Pictures/Screenshots/$(ls -t ~/Pictures/Screenshots/ | head -n1)
 # Take a screenshot of the active window upon pressing $mod+x
-bindsym --release $mod+Shift+x exec --no-startup-id xfce4-screenshooter --save ~/Pictures/Screenshots/"s$(date +'%s')w.png" --no-border --window
+bindsym --release $mod+Shift+x exec --no-startup-id xfce4-screenshooter --save ~/Pictures/Screenshots/"s$(date +'%s')w.png" --no-border --window && add2recent ~/Pictures/Screenshots/$(ls -t ~/Pictures/Screenshots/ | head -n1)
 
 # Open a new terminal with the title Journal running jrnl and move it to workspace 7
 bindsym $mod+j exec --no-startup-id alacritty -t Journal -e jrnl
