@@ -167,11 +167,11 @@ workspace_layout stacking
 # We use variables to avoid repeating the names in multiple places.
 set $ws1 "1: shell"
 set $ws2 "2: web"
-set $ws3 "3: mail"
+set $ws3 "3: notes"
 set $ws4 "4: slack"
 set $ws5 "5: irc"
 set $ws6 "6: files"
-set $ws7 "7: notes"
+set $ws7 "7: mail"
 set $ws8 "8: obs"
 set $ws9 "9: chat"
 set $ws10 "10: music"
@@ -211,16 +211,16 @@ bindsym $mod+Ctrl+Left move workspace to output left
 assign [class="Alacritty"] $ws1
 # Assign Chrome to workspace 2
 assign [class="Google-chrome"] $ws2
-# Assign Thunderbird to workspace 3
-assign [class="thunderbird"] $ws3
+# Assign Obsidian to workspace 3
+assign [class="obsidian"] $ws3
 # Assign Slack to workspace 4
 assign [class="Slack"] $ws4
 # Assign Element to workspace 5
 assign [class="Element"] $ws5
 # Assign Thunar to workspace 6
 assign [class="Thunar"] $ws6
-# Assign Obsidian to workspace 7
-assign [class="obsidian"] $ws7
+# Assign Thunderbird to workspace 7
+assign [class="thunderbird"] $ws7
 # Assign OBS to workspace 8
 assign [class="obs"] $ws8
 # Assign Telegram to workspace 9
