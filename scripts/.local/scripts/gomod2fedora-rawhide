@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+# This script tries to match the go.mod content with the Fedora packages.
+
+go_mod_file="./go.mod"
+import_paths=$(awk '/^[[:space:]]*github\.com/ { print $1 }' "$go_mod_file")
+
+while IFS= read -r path; do
+    printf "\nChecking $path\n"
+    dnf --repo rawhide --quiet --color never whatprovides "golang($path)"
+done <<< "$import_paths"
+
