@@ -19,7 +19,7 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 -- Open Ex by pressing leader & e
-vim.keymap.set("n", "<leader>e", vim.cmd.Ex, {desc = "Open file [e]xplorer"})
+vim.keymap.set("n", "<leader>e", vim.cmd.Ex, { desc = "Open file [e]xplorer" })
 -- Set highlight on search results
 vim.o.hlsearch = false
 -- Set incremental search (search as you type)

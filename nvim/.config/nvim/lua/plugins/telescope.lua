@@ -35,7 +35,7 @@ return {
             b = {require('telescope.builtin').buffers, "[F]ind in [B]uffers"},
             m = {require('telescope.builtin').man_pages, "[F]ind in [M]an pages"},
             e = {require('telescope.builtin').diagnostics, "[F]ind [E]rrors"},
-            t = {require('telescope.builtin').speel_suggest, "[F]ind [T]ypos"},
+            z = {require('telescope.builtin').speel_suggest, "[F]ind using zspell"},
             s = {require('telescope.builtin').lsp_document_symbols, "[F]ind document [S]ymbols"},
             ws = {require('telescope.builtin').lsp_dynamic_workspace_symbols, "[F]ind [W]orkspace [S]ymbols"},
             g = {require('telescope.builtin').git_files, "[F]ind in [G]it"},

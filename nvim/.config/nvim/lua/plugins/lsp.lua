@@ -16,6 +16,16 @@ return {
     },
     -- Additional lua configuration, makes nvim stuff amazing!
     'folke/neodev.nvim',
+
+    -- Comments are not part of the LSP spec, but this plugin is useful
+    {
+      'numToStr/Comment.nvim',
+      opts = {
+          -- add any options here
+      },
+      lazy = false,
+    }
+
   },
   config = function()
 
@@ -68,7 +78,7 @@ return {
     }
 
     -- Enable gitsings. This maybe is not the best place for this.
-    -- require('gitsigns').setup()
+    require('gitsigns').setup()
 
     -- Setup neovim lua configuration
     require('neodev').setup()

@@ -19,7 +19,7 @@ return {
     'hrsh7th/cmp-path',
   },
   config = function()
-    require'cmp'.setup {
+    require 'cmp'.setup {
       sources = {
         { name = 'path' }
       }
