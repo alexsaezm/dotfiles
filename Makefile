@@ -19,5 +19,8 @@ install:
 clean: 
 	@stow --delete --target=${HOME} --verbose=$(VERBOSE_LEVEL) $(PACKAGES)
 
-.PHONY: all bootstrap install clean
+clean-nvim:
+	@stow --delete --target=${HOME} --verbose=$(VERBOSE_LEVEL) nvim
+
+.PHONY: all bootstrap install clean clean-nvim
 
