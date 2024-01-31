@@ -23,6 +23,6 @@
     - name: "Install upstream go"
       block:
         - command: go install golang.org/dl/gotip@latest
-        - command: /root/go/bin/gotip download release-branch.go1.20
+        - command: /root/go/bin/gotip download release-branch.go1.21
       when: upstream_go_installed is not defined
 
