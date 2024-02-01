@@ -22,6 +22,16 @@ set $term alacritty
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
 font pango:DejaVu Sans Mono 8
 
+# Set the layout to US-international QWERTY with dead letters so I can write
+# for example ñ (altgr + n) and € (altgr + 5).
+# Use altgr-intl instead of intl so I can write paths without problems (in
+# intl, ~ waits for a second key press so you need to type ~ twice to insert
+# the character).
+# If you want to see all of the layouts you can use the following commands:
+# List all layouts -> localectl list-x11-keymap-layouts
+# List all variants of US -> localectl list-x11-keymap-variants us
+exec --no-startup-id setxkbmap -layout us -variant altgr-intl
+
 # Start XDG autostart .desktop files using dex. See also
 # https://wiki.archlinux.org/index.php/XDG_Autostart
 exec --no-startup-id dex-autostart --autostart --environment i3
