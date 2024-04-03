@@ -16,7 +16,8 @@
           - rsync
           - tmux
           - jq
-          - go-toolset
+          - golang
+          - delve
           - lsof
         state: present
 
