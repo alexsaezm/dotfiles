@@ -3,6 +3,8 @@
 
 # Install multiple packages I normally need for working on bugs, it also
 # installs upstream go so I can verify against different compiler versions
+# It disables the git safe directory checks because I usually sync code from my
+# laptop to the servers.
 
 ---
 - hosts: beaker
@@ -20,6 +22,9 @@
           - delve
           - lsof
         state: present
+
+    - name: "Disable git safe directory checks"
+      command: git config --global --add safe.directory '*'
 
     - name: "Install upstream go"
       block:
