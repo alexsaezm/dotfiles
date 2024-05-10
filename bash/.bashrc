@@ -17,6 +17,16 @@ export PATH="$GOPATH/bin:$PATH"
 
 # It's a symbolic link to /usr/bin/nvim so it doesn't complain if I am in a container
 export EDITOR="vim"
+alias vimdiff="nvim -d"
+
+# Taskwarrior
+taskwait() {
+	task modify -next wait:later "$@"
+}
+
+tasknext() {
+	task modify +next wait: "$@"
+}
 
 # User specific aliases and functions
 if [ -d ~/.bashrc.d ]; then
