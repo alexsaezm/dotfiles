@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# Sometimes I need to download everything from a webpage into a local folder.
+# There is no way on Earth I will remember the following command:
+
+wget --no-verbose --no-parent --recursive --level=1 --no-directories --no-host-directories --no-clobber --continue -e robots=off $1
