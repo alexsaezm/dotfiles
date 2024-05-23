@@ -24,10 +24,18 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 -- Open Ex by pressing leader & e
-vim.keymap.set("n", "<leader>e", vim.cmd.Ex)
+-- I am now using oil.nvim, check lua/plugins/oil.lua
+-- vim.keymap.set("n", "<leader>e", vim.cmd.Ex)
+
+-- Navigate through the quickfix faster.
+vim.keymap.set("n", "<C-j>", vim.cmd.cafter)
+vim.keymap.set("n", "<C-k>", vim.cmd.cbefore)
 
 -- Set highlight on search results
 vim.o.hlsearch = false
+
+-- Set syntax off
+-- vim.cmd.syntax 'off'
 
 -- Set incremental search (search as you type)
 vim.opt.incsearch = true

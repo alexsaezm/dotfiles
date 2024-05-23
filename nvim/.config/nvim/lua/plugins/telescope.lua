@@ -5,21 +5,27 @@ return {
 	branch = '0.1.x',
 	dependencies = {
 		'nvim-lua/plenary.nvim',
-		-- -- Fuzzy Finder Algorithm which requires local dependencies to be built.
-		-- -- Only load if `make` is available. Make sure you have the system
-		-- -- requirements installed.
-		-- {
-		-- 	'nvim-telescope/telescope-fzf-native.nvim',
-		-- 	-- NOTE: If you are having trouble with this installation,
-		-- 	--       refer to the README for telescope-fzf-native for more instructions.
-		-- 	build = 'make',
-		-- 	cond = function()
-		-- 		return vim.fn.executable 'make' == 1
-		-- 	end,
-		-- },
+		-- Fuzzy Finder Algorithm which requires local dependencies to be built.
+		-- Only load if `make` is available. Make sure you have the system
+		-- requirements installed.
+		{
+			'nvim-telescope/telescope-fzf-native.nvim',
+			-- NOTE: If you are having trouble with this installation,
+			--       refer to the README for telescope-fzf-native for more instructions.
+			build = 'make',
+			cond = function()
+				return vim.fn.executable 'make' == 1
+			end,
+		},
+		'nvim-telescope/telescope-ui-select.nvim',
+		"nvim-telescope/telescope-smart-history.nvim",
+
 	},
 	config = function()
 		local telescope = require('telescope')
+		pcall(require("telescope").load_extension, "fzf")
+		pcall(require("telescope").load_extension, "smart_history")
+		pcall(require("telescope").load_extension, "ui-select")
 		telescope.setup {
 			pickers = {
 				find_files = {
@@ -41,6 +47,7 @@ return {
 		vim.keymap.set('n', '<leader>fm', builtin.man_pages, {})
 		vim.keymap.set('n', '<leader>fe', builtin.diagnostics, {})
 		vim.keymap.set('n', '<leader>fz', builtin.spell_suggest, {})
+		vim.keymap.set("n", "/", builtin.current_buffer_fuzzy_find, {})
 		-- LSP
 		vim.keymap.set('n', '<leader>fds', builtin.lsp_document_symbols, {})
 		vim.keymap.set('n', '<leader>ftd', builtin.lsp_type_definitions, {})
@@ -48,12 +55,10 @@ return {
 		vim.keymap.set('n', 'gd', builtin.lsp_definitions, {})
 		vim.keymap.set('n', 'gr', builtin.lsp_references, {})
 		vim.keymap.set('n', 'gi', builtin.lsp_implementations, {})
+		vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, {})
 		-- Git
 		vim.keymap.set('n', '<leader>fgf', builtin.git_files, {})
 		vim.keymap.set('n', '<leader>fgc', builtin.git_commits, {})
 		vim.keymap.set('n', '<leader>fgb', builtin.git_branches, {})
-
-		-- Enable telescope fzf native, if installed
-		-- pcall(require('telescope').load_extension, 'fzf')
 	end,
 }
