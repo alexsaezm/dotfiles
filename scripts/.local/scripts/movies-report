@@ -1,0 +1,45 @@
+#!/usr/bin/env python
+import feedparser
+from datetime import datetime, timedelta, timezone
+from dateutil.relativedelta import relativedelta
+import calendar
+import html
+from bs4 import BeautifulSoup
+
+# Get the current date and calculate the first and last day of the previous month
+current_date = datetime.now(timezone.utc)
+first_day_of_current_month = datetime(current_date.year, current_date.month, 1, tzinfo=timezone.utc)
+first_day_of_previous_month = first_day_of_current_month - relativedelta(months=1)
+last_day_of_previous_month = first_day_of_current_month - timedelta(days=1)
+
+# Parse the RSS feed
+feed = feedparser.parse('https://letterboxd.com/alexsaezm/rss/')
+
+entries = []
+
+for entry in feed.entries:
+    filmTitle = entry.get('letterboxd_filmtitle', 'No title')
+    filmYear = entry.get('letterboxd_filmyear', 'No year')
+    published_date = entry.get('published', 'No pubDate')
+    watched_date = entry.get('letterboxd_watcheddate', 'No watched date')
+    summary = entry.get('summary', 'No summary')
+
+    # Convert HTML entities and remove HTML tags from the summary
+    summary = html.unescape(summary)
+    summary = BeautifulSoup(summary, "html.parser").get_text()
+
+    published_datetime = datetime.strptime(published_date, '%a, %d %b %Y %H:%M:%S %z')
+    watched_datetime = datetime.strptime(watched_date, '%Y-%m-%d').replace(tzinfo=timezone.utc)
+
+    # Check if the watched date is within the previous month
+    if first_day_of_previous_month <= watched_datetime <= last_day_of_previous_month:
+        entries.append((watched_datetime, filmTitle, filmYear, watched_date, summary))
+
+# Sort the entries by watched_date (the first element of the tuple)
+entries.sort()
+
+print(f'I watched {len(entries)} movies in {first_day_of_previous_month.strftime("%B")}.\n')
+# Print the sorted entries
+for watched_datetime, filmTitle, filmYear, watched_date, summary in entries:
+    print(f'- **{filmTitle}** ({filmYear}). {summary}')
+
