@@ -30,7 +30,19 @@ font pango:DejaVu Sans Mono 8
 # If you want to see all of the layouts you can use the following commands:
 # List all layouts -> localectl list-x11-keymap-layouts
 # List all variants of US -> localectl list-x11-keymap-variants us
-exec --no-startup-id setxkbmap -layout us -variant altgr-intl
+#exec --no-startup-id "setxkbmap -model pc105 -layout us -variant altgr-intl"
+#I know configure this at the locales level
+#System Locale: LANG=en_IE.UTF-8
+#               LC_NUMERIC=en_DK.UTF-8
+#               LC_TIME=en_DK.UTF-8
+#               LC_MONETARY=en_DK.UTF-8
+#               LC_PAPER=en_DK.UTF-8
+#               LC_MEASUREMENT=en_DK.UTF-8
+#    VC Keymap: us-altgr-intl
+#   X11 Layout: us
+#    X11 Model: variant
+#  X11 Variant: altgr-intl
+
 
 # Start XDG autostart .desktop files using dex. See also
 # https://wiki.archlinux.org/index.php/XDG_Autostart
@@ -79,6 +91,10 @@ bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+
+# Use brightnessctl to adjust the brightness of the laptop lid
+bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl set +5%
+bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 5%-
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -173,7 +189,12 @@ for_window [class="Alacritty" title="Toot"] resize set 1024 600
 for_window [class="Alacritty" title="Toot"] move window to workspace $ws2 focus
 
 # Set the default workspace layout to stacking
+# https://i3wm.org/docs/userguide.html#_layout_mode_for_new_containers
 workspace_layout stacking
+
+# Center the title
+# https://i3wm.org/docs/userguide.html#_window_title_alignment
+title_align center
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.

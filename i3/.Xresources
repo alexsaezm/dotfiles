@@ -1,5 +1,7 @@
+# 96 x 1.25 = 120 -> 125% scaling
+Xft.dpi: 120
 # 96 x 1.5 = 144 -> 150% scaling
-Xft.dpi: 144
+#Xft.dpi: 144
 # 96 x 2 = 192 -> 200% scaling
 # Xft.dpi: 192
 
