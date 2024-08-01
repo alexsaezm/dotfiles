@@ -29,11 +29,12 @@ for entry in feed.entries:
     summary = BeautifulSoup(summary, "html.parser").get_text()
 
     published_datetime = datetime.strptime(published_date, '%a, %d %b %Y %H:%M:%S %z')
-    watched_datetime = datetime.strptime(watched_date, '%Y-%m-%d').replace(tzinfo=timezone.utc)
 
-    # Check if the watched date is within the previous month
-    if first_day_of_previous_month <= watched_datetime <= last_day_of_previous_month:
-        entries.append((watched_datetime, filmTitle, filmYear, watched_date, summary))
+    # Check if the watched date is valid and within the previous month
+    if watched_date != 'No watched date':
+        watched_datetime = datetime.strptime(watched_date, '%Y-%m-%d').replace(tzinfo=timezone.utc)
+        if first_day_of_previous_month <= watched_datetime <= last_day_of_previous_month:
+            entries.append((watched_datetime, filmTitle, filmYear, watched_date, summary))
 
 # Sort the entries by watched_date (the first element of the tuple)
 entries.sort()
