@@ -128,6 +128,10 @@ bindsym $mod+Shift+Right move right
 # Iterate between the last two workspaces
 bindsym $mod+Tab workspace back_and_forth
 
+# Iterate between the last two windows using $mod+` (grave)
+exec --no-startup-id ~/.local/scripts/i3-marker
+bindsym $mod+grave exec i3-msg '[con_mark="p"] focus'
+
 # split in horizontal orientation
 # I want to use ", but I need to learn how to write it
 bindsym $mod+z split h
@@ -195,6 +199,11 @@ workspace_layout stacking
 # Center the title
 # https://i3wm.org/docs/userguide.html#_window_title_alignment
 title_align center
+
+# Night light:
+# At some point I need to integrate redshift with i3wm somehow.
+# For now, what I use to start it when I need it:
+# redshift -O 4000
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.

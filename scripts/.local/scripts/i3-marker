@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+# Variable to store the previously focused window ID
+previous_window_id=""
+
+# Subscribe to window events
+i3-msg -t subscribe -m '[ "window" ]' | while read -r event; do
+    # Check if the event is a focus event
+    if echo "$event" | grep -q '"change":"focus"'; then
+        # Extract the ID of the currently focused window
+        current_window_id=$(echo "$event" | jq -r '.container.id')
+
+        # Mark the previous window with "p" if it exists
+        if [ -n "$previous_window_id" ]; then
+            i3-msg "[con_id=\"$previous_window_id\"] mark p"
+        fi
+
+        # Mark the current window with "c"
+        i3-msg "[con_id=\"$current_window_id\"] mark c"
+
+        # Update the previous window ID
+        previous_window_id="$current_window_id"
+    fi
+done
+
