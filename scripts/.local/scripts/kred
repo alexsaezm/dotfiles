@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+# Similar to kfed but for my Red Hat account
+
+echo "Requesting Red Hat kerberos ticket"
+kinit "$(op read 'op://Personal/Red Hat/username')@$(op read 'op://Personal/Red Hat/domain')" <<< "$(op read 'op://Personal/Red Hat/password')"
+
