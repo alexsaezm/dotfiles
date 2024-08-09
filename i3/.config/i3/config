@@ -77,7 +77,7 @@ exec --no-startup-id thunar
 exec --no-startup-id obsidian
 
 # I use Thunderbird for reading emails
-exec --no-startup-id thunderbird
+#exec --no-startup-id thunderbird
 
 # slack is the chat we use for internal communications
 exec --no-startup-id slack
@@ -213,8 +213,8 @@ set $ws3 "3: notes"
 set $ws4 "4: slack"
 set $ws5 "5: irc"
 set $ws6 "6: files"
-set $ws7 "7: mail"
-set $ws8 "8: obs"
+#set $ws7 "7: mail"
+#set $ws8 "8: obs"
 set $ws9 "9: chat"
 set $ws10 "10: music"
 
@@ -251,20 +251,24 @@ bindsym $mod+Ctrl+Left move workspace to output left
 
 # Assign Alacritty to workspace 1
 assign [class="Alacritty"] $ws1
-# Assign Chrome to workspace 2
+# Assign web browsers to workspace 2
 assign [class="Google-chrome"] $ws2
+assign [class="firefox"] $ws2
+assign [class="Brave-browser"] $ws2
+assign [class="Tor Browser"] $ws2
 # Assign Obsidian to workspace 3
 assign [class="obsidian"] $ws3
 # Assign Slack to workspace 4
 assign [class="Slack"] $ws4
 # Assign Element to workspace 5
 assign [class="Element"] $ws5
-# Assign Thunar to workspace 6
+# Assign Thunar & Nautilus to workspace 6
 assign [class="Thunar"] $ws6
+assign [class="org.gnome.Nautilus"] $ws6
 # Assign Thunderbird to workspace 7
-assign [class="thunderbird"] $ws7
+#assign [class="thunderbird"] $ws7
 # Assign OBS to workspace 8
-assign [class="obs"] $ws8
+#assign [class="obs"] $ws8
 # Assign Telegram to workspace 9
 assign [class="Telegram"] $ws9
 # Assign Rhythmbox to workspace 10
