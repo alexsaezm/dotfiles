@@ -1,0 +1,8 @@
+# Checks if the current shell is running in a toolbox container and prints the toolbox name
+function toolbox_info() {
+    if [ -f "/run/.toolboxenv" ]
+    then
+        TOOLBOX_NAME=$(cat /run/.containerenv | grep -oP "(?<=name=\")[^\";]+")
+        echo "[${TOOLBOX_NAME}]"
+    fi
+}

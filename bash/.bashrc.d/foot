@@ -1,0 +1,5 @@
+# Set the terminal title to the current working directory
+update_foot_title() {
+	echo -ne "\e]0;${USER}@${HOSTNAME}: ${PWD}\a"
+}
+PROMPT_COMMAND=update_foot_title

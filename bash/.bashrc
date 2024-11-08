@@ -7,26 +7,18 @@ fi
 
 
 # User specific environment
-if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/.local/scripts:$HOME/.local/redhat-scripts:$HOME/bin:" ]]
-then
-	PATH="$HOME/.local/bin:$HOME/.local/scripts:$HOME/.local/redhat-scripts:$HOME/bin:$PATH"
+export GOPATH="$HOME/Code"
+if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/.local/scripts:$GOPATH/bin:$HOME/bin:" ]]; then
+	PATH="$HOME/.local/bin:$HOME/.local/scripts:$GOPATH/bin:$HOME/bin:$PATH"
 fi
+export PATH
 
-export GOPATH="/home/alex/Code"
-export PATH="$GOPATH/bin:$PATH"
 
-# It's a symbolic link to /usr/bin/nvim so it doesn't complain if I am in a container
+# It's a symbolic link to /usr/bin/nvim so it doesn't complain if I am in a container:
+# sudo dnf remove vim-enhanced -y
+# sudo ln -s /usr/bin/nvim /usr/bin/vim
 export EDITOR="vim"
 alias vimdiff="nvim -d"
-
-# Taskwarrior
-taskwait() {
-	task modify -next wait:later "$@"
-}
-
-tasknext() {
-	task modify +next wait: "$@"
-}
 
 # User specific aliases and functions
 if [ -d ~/.bashrc.d ]; then
@@ -39,7 +31,8 @@ fi
 
 unset rc
 
-export PS1="\[\e[38;5;202m\]\h \[\e[38;5;131m\]\$ \[\033[0m\]"
+# Configure the prompt, it requires stuff from .bashrc.d
+export PS1="\[\e[38;5;202m\]\`toolbox_info\`\[\e[38;5;131m\]\$ \[\033[0m\]"
 
 # FZF: dnf install fzf -y
 # Source only fzf bindings if the file exists. A common scenario is inside a container.
