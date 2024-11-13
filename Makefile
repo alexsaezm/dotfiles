@@ -21,6 +21,7 @@ clean:
 
 clean-nvim:
 	@stow --delete --target=${HOME} --verbose=$(VERBOSE_LEVEL) nvim
+	@rm -rf ~/.local/share/nvim/ ~/.local/state/nvim/ ~/.cache/nvim/
 
 .PHONY: all bootstrap install clean clean-nvim
 
