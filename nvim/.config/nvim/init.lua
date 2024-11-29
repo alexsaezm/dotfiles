@@ -27,6 +27,15 @@ vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
 -- Enable undo file
 vim.opt.undofile = true
 
+-- Run spell check for specific file types
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "gitcommit", "markdown", "text" },
+  callback = function()
+    vim.opt_local.spell = true
+    vim.opt_local.spelllang = "en_us"
+  end,
+  group = vim.api.nvim_create_augroup("CommitSpellCheck", { clear = true }),
+})
 
 -- Install and enable lazy.nvim plugin manager. See :help lazy.nvim.txt
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
