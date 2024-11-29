@@ -71,6 +71,9 @@ return {
     }
 
     cmp.setup({
+      completion = {
+        autocomplete = false,
+      },
       -- See `:help ins-completion`
       mapping = cmp.mapping.preset.insert({
         ['<CR>'] = cmp.mapping.confirm { select = true },
