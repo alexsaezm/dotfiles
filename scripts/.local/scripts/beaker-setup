@@ -19,9 +19,14 @@
           - tmux
           - jq
           - golang
-          - delve
           - lsof
         state: present
+
+    - name: "Install delve"
+      dnf:
+        name: delve
+        state: present
+      when: ansible_architecture != 's390x'
 
     - name: "Disable git safe directory checks"
       command: git config --global --add safe.directory '*'
