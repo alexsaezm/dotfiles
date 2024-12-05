@@ -1,8 +1,32 @@
 #!/usr/bin/env bash
 
 # Documentation: https://docs.fedoraproject.org/en-US/fedora-accounts/user/
-# This package needs the fedora-packager-kerberos to run the fkinit and the 1Password cli tool.
+# This script used to need the fedora-packager-kerberos package to run the
+# fkinit. But recently, fkinit started giving me issues so I borrowed some
+# ideas from them from here
+# https://pagure.io/fedora-packager/blob/main/f/src/fkinit#_88 and do my own
+# stuff.
+# It needs the 1Password cli tool.
 
-echo "Requesting Fedora kerberos ticket"
-fkinit -u $(op read 'op://Personal/Fedora/username') <<< "$(op read 'op://Personal/Fedora/password')$(op read 'op://Personal/Fedora/one-time password?attribute=otp')"
+finalize()
+{
+  rm -f $armorcache
+}
+ 
+set -e
+ 
+armorcache=$(mktemp)
+trap finalize EXIT
 
+domain=FEDORAPROJECT.ORG
+F_USER=$(op read 'op://Personal/Fedora/username')
+F_PASS=$(op read 'op://Personal/Fedora/password')
+F_OTP=$(op read 'op://Personal/Fedora/one-time password?attribute=otp')
+
+kinit -n @$domain -c FILE:$armorcache
+echo -n ${F_PASS}${F_OTP} | kinit -T FILE:$armorcache ${F_USER}@$domain >/dev/null
+unset F_PASS
+unset F_OTP
+
+echo
+klist
