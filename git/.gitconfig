@@ -12,7 +12,7 @@
   path = ~/.gitconfig_upstream
 
 [core]
-	excludesFile = ~/.gitignore
+	excludesFile = ~/.gitignore_global
 [pull]
 	rebase = false
 [init]
