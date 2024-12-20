@@ -1,0 +1,27 @@
+profile docked {
+    output 'LG Electronics LG HDR 4K 0x00052C0A' {
+        mode 3840x2160
+        transform 90
+	scale 1.5
+        position 0,0
+    }
+    output 'LG Electronics LG HDR 4K 0x00052A54' {
+        mode 3840x2160
+	scale 1.5
+        position 2160,0
+    }
+    output eDP-1 {
+        mode 1920x1080
+	scale 1.25
+        position 6000,0
+    }
+}
+
+profile undocked {
+    output eDP-1 {
+        mode 1920x1080
+	scale 1.25
+        position 0,0
+    }
+}
+

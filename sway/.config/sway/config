@@ -1,0 +1,303 @@
+# Read `man 5 sway` for a complete reference.
+
+### Variables
+#
+# Mod4 means Logo key. Change to Mod1 for Alt.
+set $mod Mod4
+# Home row direction keys, like vim
+set $left h
+set $down j
+set $up k
+set $right l
+# The default terminal emulator
+set $term foot
+# The default file manager
+set $filemanager pcmanfm
+# Your preferred application launcher
+set $menu wmenu-run
+# The wallpaper, I use it in two places, in the output and in the idle configurations
+set $wallpaper ~/Pictures/Wallpapers/gruv-abstract-maze.png
+# Define names for default workspaces for which we configure key bindings later on.
+set $ws1 "1: shell"
+set $ws2 "2: web"
+set $ws3 "3: notes"
+set $ws4 "4: slack"
+set $ws5 "5: irc"
+set $ws6 "6: files"
+set $ws9 "9: chat"
+set $ws10 "10: music"
+
+### Output configuration
+#
+# Wallpaper, it's a symbolic link so I can easily change the wallpaper without touching here
+output * bg $wallpaper fill
+
+# You can get the names of your outputs by running: swaymsg -t get_outputs
+exec_always systemctl --user restart kanshi &
+
+### Idle configuration
+
+exec swayidle -w \
+    timeout 300 'swaylock -f -i $wallpaper' \
+    timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
+    before-sleep 'swaylock -f -i $wallpaper'
+#
+# This will lock your screen after 300 seconds of inactivity, then turn off
+# your displays after another 300 seconds, and turn your screens back on when
+# resumed. It will also lock your screen before your computer goes to sleep.
+
+### Input configuration
+
+# Set the layout to US-international QWERTY with dead letters so I can write
+# for example ñ (altgr + n) and € (altgr + 5).
+# Use altgr-intl instead of intl so I can write paths without problems (in
+# intl, ~ waits for a second key press so you need to type ~ twice to insert
+# the character).
+# the character).
+# If you want to see all of the layouts you can use the following commands:
+# List all layouts -> localectl list-x11-keymap-layouts
+# List all variants of US -> localectl list-x11-keymap-variants us
+input * {
+    xkb_layout "us"
+    xkb_variant "altgr-intl"
+}
+
+#
+# You can get the names of your inputs by running: swaymsg -t get_inputs
+# Read `man 5 sway-input` for more information about this section.
+
+# Applications
+
+# NetworkManager is the most popular way to manage wireless networks on Linux,
+# and nm-applet is a desktop environment-independent system tray GUI for it.
+exec_always --no-startup-id nm-applet --indicator
+
+# blueman-applet is a system tray GUI for bluetooth.
+exec --no-startup-id blueman-applet
+
+# Adjust the color temperature according to the time of the day
+# $ dnf install gammastep gammastep-indicator
+# TODO I still need to configure it
+#exec --no-startup-id gammastep-indicator &
+
+# I always like to have an already opened terminal
+exec --no-startup-id $term
+
+# It's always nice to have a file manager at hand
+exec --no-startup-id $filemanager
+
+### Key bindings
+#
+# Basics:
+#
+    # Start a terminal
+    bindsym $mod+Return exec $term
+
+    # Kill focused window
+    bindsym $mod+Shift+q kill
+
+    # Start your launcher
+    bindsym $mod+d exec $menu
+
+    # Iterate between the last two workspaces
+    bindsym $mod+Tab workspace back_and_forth
+
+    # Drag floating windows by holding down $mod and left mouse button.
+    # Resize them with right mouse button + $mod.
+    # Despite the name, also works for non-floating windows.
+    # Change normal to inverse to use left mouse button for resizing and right
+    # mouse button for dragging.
+    floating_modifier $mod normal
+
+    # Screenshots
+    # Note: Some editors don't work well with : in links (for example, Obsidian
+    #       doesn't include the file and fails silently). ISO 8601 (ex: date -Is) prints
+    #       the time separated with :. As I never check the date of a screenshot and what
+    #       I truly want is to be able to sort them I started using the UNIX Epoch.
+    #       Nobody can read that, but hey, you got it sorted :P
+    #
+    #       In case I need it, the regexp for the name is: ^s\d+[rw]\.png$
+    #
+
+    # Use grimshot instead of grim if you want to keep your head sane
+    # dnf install grimshot -y
+    # Take a screenshot of the current screen
+    bindsym Print exec grimshot save output ~/Pictures/Screenshots/"s$(date +'%s')r.png"
+    # Take a screenshot of the active window
+    bindsym $mod+Print exec grimshot save active ~/Pictures/Screenshots/"s$(date +'%s')r.png"
+    # Select an area and take a screenshot
+    bindsym $mod+Shift+Print exec grimshot save area ~/Pictures/Screenshots/\"s$(date +'%s')r.png\"
+
+    # Reload the configuration file
+    bindsym $mod+Shift+c reload
+
+    # Used to work on i3, but it doesn't on Sway for some reason.
+    #bindsym $mod+Shift+r restart
+
+    # Exit sway (logs you out of your Wayland session)
+    bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
+
+    # shutdown the system
+    bindsym $mod+Shift+s exec swaynag -t warning -m 'You pressed the shutdown shortcut. Do you really want to shutdown your computer?' -B 'Yes, shutdown' 'sudo shutdown -h now'
+#
+# Moving around:
+#
+    # Move your focus around
+    bindsym $mod+$left focus left
+    bindsym $mod+$down focus down
+    bindsym $mod+$up focus up
+    bindsym $mod+$right focus right
+    # Or use $mod+[up|down|left|right]
+    bindsym $mod+Left focus left
+    bindsym $mod+Down focus down
+    bindsym $mod+Up focus up
+    bindsym $mod+Right focus right
+
+    # Move the focused window with the same, but add Shift
+    bindsym $mod+Shift+$left move left
+    bindsym $mod+Shift+$down move down
+    bindsym $mod+Shift+$up move up
+    bindsym $mod+Shift+$right move right
+    # Ditto, with arrow keys
+    bindsym $mod+Shift+Left move left
+    bindsym $mod+Shift+Down move down
+    bindsym $mod+Shift+Up move up
+    bindsym $mod+Shift+Right move right
+#
+# Workspaces:
+#
+    # Switch to workspace
+    bindsym $mod+1 workspace number $ws1
+    bindsym $mod+2 workspace number $ws2
+    bindsym $mod+3 workspace number $ws3
+    bindsym $mod+4 workspace number $ws4
+    bindsym $mod+5 workspace number $ws5
+    bindsym $mod+6 workspace number $ws6
+    bindsym $mod+7 workspace number $ws7
+    bindsym $mod+8 workspace number $ws8
+    bindsym $mod+9 workspace number $ws9
+    bindsym $mod+0 workspace number $ws10
+    # Move focused container to workspace
+    bindsym $mod+Shift+1 move container to workspace number $ws1
+    bindsym $mod+Shift+2 move container to workspace number $ws2
+    bindsym $mod+Shift+3 move container to workspace number $ws3
+    bindsym $mod+Shift+4 move container to workspace number $ws4
+    bindsym $mod+Shift+5 move container to workspace number $ws5
+    bindsym $mod+Shift+6 move container to workspace number $ws6
+    bindsym $mod+Shift+7 move container to workspace number $ws7
+    bindsym $mod+Shift+8 move container to workspace number $ws8
+    bindsym $mod+Shift+9 move container to workspace number $ws9
+    bindsym $mod+Shift+0 move container to workspace number $ws10
+    # Move workspace to another screen
+    bindsym $mod+Ctrl+$right move workspace to output right
+    bindsym $mod+Ctrl+$left move workspace to output left
+    bindsym $mod+Ctrl+Right move workspace to output right
+    bindsym $mod+Ctrl+Left move workspace to output left
+
+    # In order to get the class of a window, you can use swaymsg -t get_tree
+    # Then you can use the app_id field if it's a Wayland application.
+    # But xwayland looks like they still use class.
+    # This is similar to what I used to do in i3 with xprop and WM_CLASS.
+
+    # Assign the default terminal to workspace 1
+    assign [app_id="$term"] $ws1
+    # Assign web browsers to workspace 2
+    assign [app_id="google-chrome"] $ws2
+    assign [app_id="org.mozilla.firefox"] $ws2
+    assign [app_id="LibreWolf"] $ws2
+    # Assign Slack to workspace 4
+    assign [class="Slack"] $ws4
+    # Assign web browsers to workspace 6
+    assign [app_id="pcmanfm"] $ws6
+
+#
+# Layout stuff:
+#
+    # You can "split" the current object of your focus with
+    # $mod+b or $mod+v, for horizontal and vertical splits
+    # respectively.
+    bindsym $mod+b splith
+    bindsym $mod+v splitv
+
+    # Switch the current container between different layout styles
+    bindsym $mod+s layout stacking
+    bindsym $mod+w layout tabbed
+    bindsym $mod+e layout toggle split
+
+    # Make the current focus fullscreen
+    bindsym $mod+f fullscreen
+
+    # Toggle the current focus between tiling and floating mode
+    bindsym $mod+Shift+space floating toggle
+
+    # Swap focus between the tiling area and the floating area
+    bindsym $mod+space focus mode_toggle
+
+    # Move focus to the parent container
+    bindsym $mod+a focus parent
+
+    # Since Wayland windows do not set urgency I disable all the settings
+    # I can only use it with XWayland apps sadly
+    bindsym $mod+u [urgent=latest] focus
+#
+# Scratchpad:
+#
+    # Sway has a "scratchpad", which is a bag of holding for windows.
+    # You can send windows there and get them back later.
+
+    # Move the currently focused window to the scratchpad
+    bindsym $mod+Shift+minus move scratchpad
+
+    # Show the next scratchpad window or hide the focused scratchpad window.
+    # If there are multiple scratchpad windows, this command cycles through them.
+    bindsym $mod+minus scratchpad show
+#
+# Resizing containers:
+#
+mode "resize" {
+    # left will shrink the containers width
+    # right will grow the containers width
+    # up will shrink the containers height
+    # down will grow the containers height
+    bindsym $left resize shrink width 10px
+    bindsym $down resize grow height 10px
+    bindsym $up resize shrink height 10px
+    bindsym $right resize grow width 10px
+
+    # Ditto, with arrow keys
+    bindsym Left resize shrink width 10px
+    bindsym Down resize grow height 10px
+    bindsym Up resize shrink height 10px
+    bindsym Right resize grow width 10px
+
+    # Return to default mode
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+r mode "resize"
+#
+# Utilities:
+#
+    # Special keys to adjust volume via PulseAudio
+    bindsym --locked XF86AudioMute exec pactl set-sink-mute \@DEFAULT_SINK@ toggle
+    bindsym --locked XF86AudioLowerVolume exec pactl set-sink-volume \@DEFAULT_SINK@ -5%
+    bindsym --locked XF86AudioRaiseVolume exec pactl set-sink-volume \@DEFAULT_SINK@ +5%
+    bindsym --locked XF86AudioMicMute exec pactl set-source-mute \@DEFAULT_SOURCE@ toggle
+    # Special keys to adjust brightness via brightnessctl
+    bindsym --locked XF86MonBrightnessDown exec brightnessctl set 5%-
+    bindsym --locked XF86MonBrightnessUp exec brightnessctl set 5%+
+
+# Center the title
+# https://i3wm.org/docs/userguide.html#_window_title_alignment
+title_align center
+#
+# Status Bar:
+#
+# Read `man 5 sway-bar` for more information about this section.
+bar {
+    position top
+    status_command i3status
+    tray_output eDP-1
+}
+
+include /etc/sway/config.d/*
