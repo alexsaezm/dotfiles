@@ -99,7 +99,9 @@ return {
         map('gD', vim.lsp.buf.declaration, 'Goto Declaration')
         map('gr', require('telescope.builtin').lsp_references, 'Goto References')
         map('gI', require('telescope.builtin').lsp_implementations, 'Goto Implementation')
-        map('<leader>ca', vim.lsp.buf.code_action, 'Code Action', { 'n', 'x' })
+        map('<leader>ca', vim.lsp.buf.code_action, 'Selects a code action available at the current cursor position', { 'n', 'x' })
+        map('<leader>cr', vim.lsp.buf.rename, 'Renames all references to the symbol under the cursor', { 'n', 'x' })
+        map('<leader>ch', vim.lsp.buf.signature_help, 'Displays signature information about the symbol under the cursor in a floating window', { 'n', 'x' })
       end
     })
   end

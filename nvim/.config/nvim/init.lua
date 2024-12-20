@@ -54,7 +54,7 @@ vim.opt.rtp:prepend(lazypath)
 -- problematic:
 -- require('lazy').setup('plugins')
 require('lazy').setup({
-	require 'config.plugins.tempus',
+	require 'config.plugins.colorscheme',
 	require 'config.plugins.which-key',
 	require 'config.plugins.telescope',
 	require 'config.plugins.harpoon',

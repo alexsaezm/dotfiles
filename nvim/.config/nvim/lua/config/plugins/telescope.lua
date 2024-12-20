@@ -56,6 +56,7 @@ return {
 		vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = 'Search by Grep' })
 		vim.keymap.set('n', '<leader>sm', builtin.man_pages, { desc = 'Search Man pages' })
 		vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = 'Search by Word' })
+		vim.keymap.set('n', '<leader>ss', builtin.lsp_dynamic_workspace_symbols, { desc = 'Search by Symbols in the workspace' })
 		vim.keymap.set('n', '<leader>sn', function()
 			builtin.find_files { cwd = vim.fn.stdpath 'config' }
 		end, { desc = 'Search Neovim files' })
