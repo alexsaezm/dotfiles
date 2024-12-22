@@ -20,7 +20,6 @@ profile docked {
 profile undocked {
     output eDP-1 {
         mode 1920x1080
-	scale 1.25
         position 0,0
     }
 }

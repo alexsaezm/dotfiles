@@ -1,0 +1,86 @@
+[
+	{
+		"layer": "top",
+		"position": "top",
+		"height": 30,
+		"output": "eDP-1",
+		"modules-left": [
+			"sway/workspaces"
+		],
+		"modules-center": [
+			"clock#home",
+		],
+		"modules-right": [
+			"pulseaudio",
+			"battery",
+			"tray"
+		],
+		"sway/workspaces": {
+			"all-outputs": false
+		},
+		"pulseaudio": {
+			"format": "{volume}% {icon}",
+			"format-bluetooth": "{volume}% {icon}",
+			"format-muted": "",
+			"format-icons": {
+				"headphone": "",
+				"hands-free": "",
+				"headset": "",
+				"phone": "",
+				"portable": "",
+				"car": "",
+				"default": [
+					"",
+					""
+				]
+			},
+			"scroll-step": 1,
+			"on-click": "pavucontrol"
+		},
+		"clock#home": {
+			"format": "{:%y-%m-%d - %H:%M}",
+			"interval": 1,
+			"timezone": "Europe/Madrid"
+		},
+		"tray": {
+			"icon-size": 14,
+			"spacing": 5
+		},
+		"battery": {
+			"interval": 60,
+			"states": {
+				"warning": 30,
+				"critical": 15
+			},
+			"format": "{capacity}% {icon}",
+			"format-icons": [
+				"",
+				"",
+				"",
+				"",
+				""
+			],
+			"max-length": 25
+		}
+	},
+	{
+		"layer": "top",
+		"position": "top",
+		"height": 30,
+		"output": "!eDP-1",
+		"modules-left": [
+			"sway/workspaces"
+		],
+		"modules-center": [
+			"clock#home",
+		],
+		"sway/workspaces": {
+			"all-outputs": false
+		},
+		"clock#home": {
+			"format": "{:%y-%m-%d - %H:%M}",
+			"interval": 1,
+			"timezone": "Europe/Madrid"
+		}
+	}
+]
