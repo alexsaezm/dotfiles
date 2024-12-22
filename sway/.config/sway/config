@@ -48,6 +48,7 @@ exec swayidle -w \
     timeout 300 'swaylock -f -i $wallpaper' \
     timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
     before-sleep 'swaylock -f -i $wallpaper'
+
 #
 # This will lock your screen after 300 seconds of inactivity, then turn off
 # your displays after another 300 seconds, and turn your screens back on when
@@ -110,6 +111,8 @@ title_align center
 
     # Iterate between the last two workspaces
     bindsym $mod+Tab workspace back_and_forth
+
+    bindsym $mod+Escape exec bash ~/.config/sway/lock.sh
 
     # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.
