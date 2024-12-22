@@ -41,3 +41,4 @@ if [ -f $FZF_BINDINGS ]; then
 	source $FZF_BINDINGS
 fi
 
+. "$HOME/.cargo/env"
