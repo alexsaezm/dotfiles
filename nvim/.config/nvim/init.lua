@@ -64,6 +64,7 @@ require('lazy').setup({
 	require 'config.plugins.treesitter',
 	require 'config.plugins.completion',
 	require 'config.plugins.lsp',
+	require 'config.plugins.dap',
 	require 'config.plugins.vim-go',
 	require 'config.plugins.todo',
 })
