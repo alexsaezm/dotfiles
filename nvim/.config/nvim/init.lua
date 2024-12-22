@@ -66,5 +66,6 @@ require('lazy').setup({
 	require 'config.plugins.lsp',
 	require 'config.plugins.dap',
 	require 'config.plugins.vim-go',
+	require 'config.plugins.lazydev',
 	require 'config.plugins.todo',
 })
