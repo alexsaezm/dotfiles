@@ -134,11 +134,11 @@ title_align center
     # Use grimshot instead of grim if you want to keep your head sane
     # dnf install grimshot -y
     # Take a screenshot of the current screen
-    #bindsym Print exec grimshot save output ~/Pictures/Screenshots/"s$(date +'%s')r.png"
-    ## Take a screenshot of the active window
-    #bindsym $mod+Print exec grimshot save active ~/Pictures/Screenshots/"s$(date +'%s')r.png"
-    ## Select an area and take a screenshot
-    #bindsym $mod+Shift+Print exec grimshot save area ~/Pictures/Screenshots/\"s$(date +'%s')r.png\"
+    bindsym $mod+x exec grimshot save output ~/Pictures/Screenshots/"s$(date +'%s')r.png"
+    # Take a screenshot of the active window
+    bindsym $mod+Shift+x exec grimshot save active ~/Pictures/Screenshots/"s$(date +'%s')r.png"
+    # Select an area and take a screenshot
+    bindsym $mod+Alt+x exec grimshot save area ~/Pictures/Screenshots/\"s$(date +'%s')r.png\"
 
     # Reload the configuration file
     bindsym $mod+Shift+c reload
