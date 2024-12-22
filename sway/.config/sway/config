@@ -217,10 +217,16 @@ title_align center
     assign [app_id="google-chrome"] $ws2
     assign [app_id="org.mozilla.firefox"] $ws2
     assign [app_id="LibreWolf"] $ws2
+    # Assign Obsidian to workspace 3
+    assign [app_id="obsidian"] $ws3
     # Assign Slack to workspace 4
-    assign [class="Slack"] $ws4
-    # Assign web browsers to workspace 6
+    assign [app_id="Slack"] $ws4
+    # Assign file managers to workspace 6
     assign [app_id="pcmanfm"] $ws6
+    # Assign Telegram to workspace 9
+    assign [app_id="org.telegram.desktop"] $ws9
+    # Assign music apps to workspace 10
+    assign [class="Spotify"] $ws10
 
 #
 # Layout stuff:
