@@ -42,3 +42,5 @@ if [ -f $FZF_BINDINGS ]; then
 fi
 
 . "$HOME/.cargo/env"
+
+export OPENAI_API_KEY=$( jq -r '.openai' /home/alex/.config/io.datasette.llm/keys.json )

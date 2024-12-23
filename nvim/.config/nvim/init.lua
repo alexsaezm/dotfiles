@@ -27,15 +27,16 @@ vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
 -- Enable undo file
 vim.opt.undofile = true
 
+-- I don't need this block because I'm using harper but it might be useful to keep it around
 -- Run spell check for specific file types
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "gitcommit", "markdown", "text" },
-  callback = function()
-    vim.opt_local.spell = true
-    vim.opt_local.spelllang = "en_us"
-  end,
-  group = vim.api.nvim_create_augroup("CommitSpellCheck", { clear = true }),
-})
+-- vim.api.nvim_create_autocmd("FileType", {
+--   pattern = { "gitcommit", "markdown", "text" },
+--   callback = function()
+--     vim.opt_local.spell = true
+--     vim.opt_local.spelllang = "en_us"
+--   end,
+--   group = vim.api.nvim_create_augroup("CommitSpellCheck", { clear = true }),
+-- })
 
 -- Install and enable lazy.nvim plugin manager. See :help lazy.nvim.txt
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
@@ -54,18 +55,18 @@ vim.opt.rtp:prepend(lazypath)
 -- problematic:
 -- require('lazy').setup('plugins')
 require('lazy').setup({
-	require 'config.plugins.colorscheme',
-	require 'config.plugins.which-key',
-	require 'config.plugins.telescope',
-	require 'config.plugins.harpoon',
-	require 'config.plugins.oil',
-	require 'config.plugins.vim-fugitive',
-	require 'config.plugins.undotree',
-	require 'config.plugins.treesitter',
-	require 'config.plugins.completion',
-	require 'config.plugins.lsp',
-	require 'config.plugins.dap',
-	require 'config.plugins.vim-go',
-	require 'config.plugins.lazydev',
-	require 'config.plugins.todo',
+  require 'config.plugins.colorscheme',
+  require 'config.plugins.which-key',
+  require 'config.plugins.telescope',
+  require 'config.plugins.harpoon',
+  require 'config.plugins.oil',
+  require 'config.plugins.vim-fugitive',
+  require 'config.plugins.undotree',
+  require 'config.plugins.treesitter',
+  require 'config.plugins.completion',
+  require 'config.plugins.lsp',
+  require 'config.plugins.dap',
+  require 'config.plugins.vim-go',
+  require 'config.plugins.lazydev',
+  require 'config.plugins.todo',
 })
