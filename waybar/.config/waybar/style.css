@@ -3,6 +3,8 @@
 	border-radius: 0;
 	font-size: 14px;
 	min-height: 0px;
+	font-family: 'Noto Sans Mono', 'Font Awesome 6 Free', 'Font Awesome 6 Brands', monospace;
+	font-size: 13px;
 }
 
 window#waybar {
@@ -94,6 +96,12 @@ window#waybar.chromium {
 	margin: 0 4px;
 }
 
+/*The weird paddings are because of the balance icon*/
+#power-profiles-daemon {
+	padding-left: 5px;
+	padding-right: 9px;
+}
+
 /* If workspaces is the leftmost module, omit left margin */
 .modules-left>widget:first-child>#workspaces {
 	margin-left: 0;
@@ -104,8 +112,9 @@ window#waybar.chromium {
 	margin-right: 0;
 }
 
+/*TODO Find a way to make the GTK icons from the traybar black and white*/
 #tray menu * {
 	font-family: Overpass;
-	font-size: 12px
+	font-size: 12px;
 }
 
