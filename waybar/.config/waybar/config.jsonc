@@ -12,10 +12,10 @@
 		],
 		"modules-right": [
 			"network",
-			"pulseaudio",
 			"cpu",
 			"memory",
 			"temperature",
+			"pulseaudio",
 			"battery",
 			"power-profiles-daemon",
 			"tray"
