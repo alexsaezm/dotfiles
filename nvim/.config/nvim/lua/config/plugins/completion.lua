@@ -11,7 +11,7 @@ return {
     -- See the full "keymap" documentation for information on defining your own keymap.
     -- https://cmp.saghen.dev/configuration/keymap.html#enter
     keymap = {
-      preset = 'enter',
+      preset = 'super-tab',
     },
 
     appearance = {

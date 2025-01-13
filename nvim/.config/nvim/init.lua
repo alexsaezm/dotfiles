@@ -1,52 +1,49 @@
--- Set the leader to the <space> key before anything else. See :help mapleader
+-- The lua guide is here https://neovim.io/doc/user/lua-guide.html
+
+-- Set the leader key to the <space> key before anything else.
+-- See :help mapleader and :help maplocalleader
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
--- Enable relative line numbers
-vim.o.number = true
-vim.o.relativenumber = true
+-- Enable relative line numbers. See :help relativenumbers
+vim.opt.number = true
+vim.opt.relativenumber = true
 
 -- Enable mouse mode. See :help mouse
-vim.o.mouse = 'a'
+vim.opt.mouse = 'a'
 
--- Sync clipboard between OS and Neovim. See :help clipboard
-vim.o.clipboard = 'unnamedplus'
+-- Sync clipboard between OS and Neovim. See help: clipboard
+vim.opt.clipboard = 'unnamedplus'
 
--- Enable break indent
-vim.o.breakindent = true
+-- Enable break ident
+vim.opt.breakindent = true
 
--- Save undo history
+-- Disable swapfile & backup
 vim.opt.swapfile = false
-
--- Disable backup
 vim.opt.backup = false
 
 -- Enable persistent undo
 vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
-
--- Enable undo file
 vim.opt.undofile = true
 
--- I don't need this block because I'm using harper but it might be useful to keep it around
--- Run spell check for specific file types
--- vim.api.nvim_create_autocmd("FileType", {
---   pattern = { "gitcommit", "markdown", "text" },
---   callback = function()
---     vim.opt_local.spell = true
---     vim.opt_local.spelllang = "en_us"
---   end,
---   group = vim.api.nvim_create_augroup("CommitSpellCheck", { clear = true }),
--- })
+-- Set the minimum size for the gutter. See :help numberwidth
+vim.opt.numberwidth = 5
 
--- Install and enable lazy.nvim plugin manager. See :help lazy.nvim.txt
-local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
+-- Bootstrap lazy.nvim. See :help lazy.nvim.txt
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
-  local lazyrepo = 'https://github.com/folke/lazy.nvim.git'
-  local out = vim.fn.system { 'git', 'clone', '--filter=blob:none', '--branch=stable', lazyrepo, lazypath }
+  local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+  local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
   if vim.v.shell_error ~= 0 then
-    error('Error cloning lazy.nvim:\n' .. out)
+    vim.api.nvim_echo({
+      { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
+      { out,                            "WarningMsg" },
+      { "\nPress any key to exit..." },
+    }, true, {})
+    vim.fn.getchar()
+    os.exit(1)
   end
-end ---@diagnostic disable-next-line: undefined-field
+end
 vim.opt.rtp:prepend(lazypath)
 
 
@@ -56,6 +53,7 @@ vim.opt.rtp:prepend(lazypath)
 -- require('lazy').setup('plugins')
 require('lazy').setup({
   require 'config.plugins.colorscheme',
+  require 'config.plugins.noice',
   require 'config.plugins.which-key',
   require 'config.plugins.telescope',
   require 'config.plugins.harpoon',
@@ -69,4 +67,6 @@ require('lazy').setup({
   require 'config.plugins.vim-go',
   require 'config.plugins.lazydev',
   require 'config.plugins.todo',
+  require 'config.plugins.lualine',
+  require 'config.plugins.autopairs',
 })

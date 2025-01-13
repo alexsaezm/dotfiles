@@ -5,6 +5,14 @@ return {
     'williamboman/mason-lspconfig.nvim',
     'j-hui/fidget.nvim',
     'saghen/blink.cmp',
+    {
+      "SmiteshP/nvim-navbuddy",
+      dependencies = {
+        "SmiteshP/nvim-navic",
+        "MunifTanjim/nui.nvim"
+      },
+      opts = { lsp = { auto_attach = true } }
+    }
   },
 
   opts = {
@@ -73,6 +81,23 @@ return {
       -- `opts[server].capabilities, if you've defined it
       config.capabilities = require('blink.cmp').get_lsp_capabilities(config.capabilities)
       lspconfig[server].setup(config)
+    end
+    vim.diagnostic.open_float()
+    vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+      virtual_text = false,
+      signs = true,
+      underline = true,
+      update_on_insert = false,
+    })
+    local signs = {
+      Error = "󰅚 ",
+      Warn = "󰳦 ",
+      Hint = "󱡄 ",
+      Info = " ",
+    }
+    for type, icon in pairs(signs) do
+      local hl = "DiagnosticSign" .. type
+      vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = nil })
     end
 
     -- See `:help LspAttach`
