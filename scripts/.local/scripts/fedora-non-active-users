@@ -1,0 +1,57 @@
+#!/usr/bin/env python3
+
+import sys
+import requests
+import json
+import configparser
+import os
+from datetime import datetime, timedelta
+from fasjson_client import Client
+
+def list_members(groupname):
+    c = Client("https://fasjson.fedoraproject.org")
+    response = c.list_group_members(
+        groupname=groupname,
+        _request_options={
+            "headers": {"X-Fields": ["username", "emails"]}
+        }
+    )
+    result = response.result
+    members = [
+        {"username": member.get("username"), "emails": member.get("emails", [])}
+        for member in result
+    ]
+    return members
+
+
+def last_commit(username, token, time_span_days):
+    url = f'https://src.fedoraproject.org/api/0/user/{username}/activity/stats'
+    response = requests.get(url, headers={'Authorization': f'token {token}'})
+    response = requests.get(url)
+    if response.status_code == 200:
+        activity_data = response.json()
+        if activity_data:
+            last_activity_date = max(datetime.strptime(date, "%Y-%m-%d") for date in activity_data.keys())
+            threshold_date = datetime.now() - timedelta(days=time_span_days)
+            return last_activity_date >= threshold_date
+    return False
+
+
+if len(sys.argv) < 2:
+    print("Please provide a group name as a command line argument.")
+else:
+    config = configparser.ConfigParser()
+    config_file = os.path.expanduser('~/.config/rpkg/fedpkg.conf')
+    config.read(config_file)
+    token = config.get('fedpkg.distgit', 'token', fallback='')
+    if not token:
+        print("Token not found in the configuration file.")
+        sys.exit(1)
+    groupname = sys.argv[1]
+    members = list_members(groupname)
+    print(f"The following {groupname} members have not been active in the last 6 months")
+    for member in members:
+        active = last_commit(member['username'], token, 180)
+        if not active:
+            print(f"{member['username']} -> {member['emails']}")
+
