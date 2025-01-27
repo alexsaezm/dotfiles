@@ -1,3 +1,5 @@
+sha
+Tmux
 harper
 dotfiles
 prebuild

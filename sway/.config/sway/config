@@ -12,7 +12,7 @@ set $right l
 # The default terminal emulator
 set $term foot
 # The default file manager
-set $filemanager pcmanfm
+set $filemanager thunar
 # Your preferred application launcher
 set $rofi_cmd rofi \
         -terminal '$term'
@@ -223,6 +223,7 @@ title_align center
     assign [app_id="Slack"] $ws4
     # Assign file managers to workspace 6
     assign [app_id="pcmanfm"] $ws6
+    assign [app_id="Thunar"] $ws6
     # Assign Telegram to workspace 9
     assign [app_id="org.telegram.desktop"] $ws9
     # Assign music apps to workspace 10
