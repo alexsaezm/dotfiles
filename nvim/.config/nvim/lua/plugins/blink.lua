@@ -11,7 +11,7 @@ return {
     -- See the full "keymap" documentation for information on defining your own keymap.
     -- https://cmp.saghen.dev/configuration/keymap.html#enter
     keymap = {
-      preset = "super-tab",
+      preset = "enter",
     },
 
     appearance = {
@@ -43,8 +43,8 @@ return {
     sources = {
       default = { "lsp", "path", "snippets", "buffer" },
       -- Disable cmdline completions
-      -- it's horrible if you are on the default preset or auto_show is set to true
-      -- cmdline = {},
+      -- It's horrible if you are on the default preset or auto_show is set to true
+      cmdline = {},
     },
     -- Experimental signature help support
     signature = { enabled = true }

@@ -62,14 +62,19 @@ return {
     -- LSP keymaps. Remember:
     -- Ctrl + T uses the tagstack. See :help tagstack
     -- Ctrl + O uses the jumplist. See :help jumplist
-    vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "Show documentation" })
+    vim.keymap.set("n", "gh", vim.lsp.buf.hover, { desc = "Show documentation" })
     vim.keymap.set("n", "gd", builtin.lsp_definitions, { desc = "Go to definition" })
-    vim.keymap.set("n", "gr", builtin.lsp_references, { desc = "Go to references" })
+    vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { desc = "Go to definition" })
+    vim.keymap.set("n", "gs", builtin.lsp_document_symbols, { desc = "Show buffer symbols" })
+    vim.keymap.set("n", "gS", builtin.lsp_dynamic_workspace_symbols, { desc = "Show buffer symbols" })
+    vim.keymap.set("n", "g.", vim.lsp.buf.code_action, { desc = "Show available Code Actions" })
+    vim.keymap.set("n", "gA", builtin.lsp_references, { desc = "Show all references" })
+
     vim.keymap.set("n", "gi", builtin.lsp_implementations, { desc = "Go to implementation" })
     vim.keymap.set("n", "gt", builtin.lsp_type_definitions, { desc = "Go to type defintion" })
-    vim.keymap.set("n", "gO", builtin.lsp_outgoing_calls, { desc = "Go to outgoing calls" })
-    vim.keymap.set("n", "gI", builtin.lsp_incoming_calls, { desc = "Go to incoming calls" })
-    vim.keymap.set("n", "<leader>ss", builtin.lsp_dynamic_workspace_symbols, { desc = "Search Symbols in the workspace" })
+    -- TODO move to the mouse?
+    -- vim.keymap.set("n", "gO", builtin.lsp_outgoing_calls, { desc = "Go to outgoing calls" })
+    -- vim.keymap.set("n", "gI", builtin.lsp_incoming_calls, { desc = "Go to incoming calls" })
     vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Show available Code Actions" })
     vim.keymap.set("n", "<leader>rs", vim.lsp.buf.rename,
       { desc = "Rename all references to the symbol under the cursor." })

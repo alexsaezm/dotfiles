@@ -8,6 +8,14 @@ return {
     local harpoon = require("harpoon")
     harpoon:setup()
 
+    -- Disable ftplugin/mail.vim <leader>q shortcuts, they interfere with my shortcuts
+    vim.api.nvim_create_autocmd("FileType", {
+      pattern = "gitsendemail",
+      callback = function ()
+        vim.api.nvim_buf_del_keymap(0, "n", "<leader>q")
+      end
+    })
+
     vim.keymap.set("n", "<leader>m", function()
       harpoon:list():add()
     end, { desc = 'Mark current file' })

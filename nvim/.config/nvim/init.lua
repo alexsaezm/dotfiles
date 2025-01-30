@@ -46,12 +46,15 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   end,
 })
 
+-- Disable inline diagnostics message
 vim.diagnostic.config({
-  virtual_text = false, -- Turn off inline diagnostics
+  virtual_text = false,
 })
+-- Remember that ]d and [d works for moving around, and harper_ls should have code actions
+vim.keymap.set("n", "<leader>d", function () vim.diagnostic.open_float() end)
 
 -- Configure the integrated terminal
--- The default way to esc from the terminal is with C-\ C-N and I can't remember it
+-- The default way to escape from the terminal is with C-\ C-N and I can't remember it
 vim.api.nvim_set_keymap('t', '<ESC>', '<C-\\><C-n>', { noremap = true })
 vim.api.nvim_create_autocmd("TermOpen", {
   group = vim.api.nvim_create_augroup("custom-term-open", { clear = true }),
@@ -62,16 +65,17 @@ vim.api.nvim_create_autocmd("TermOpen", {
   end
 })
 
+-- Now I use a plugin. But I'll leave this here for reference
 -- Open a splitted terminal buffer
-local job_id = 0
-vim.keymap.set("n", "<space>t", function()
-  vim.cmd.new()
-  vim.cmd.term()
-  vim.cmd.wincmd("J")
-  vim.api.nvim_win_set_height(0, 5)
-  -- Store the id of the terminal for later usage
-  job_id = vim.bo.channel
-end)
+-- local job_id = 0
+-- vim.keymap.set("n", "<C-`>", function()
+--   vim.cmd.new()
+--   vim.cmd.term()
+--   vim.cmd.wincmd("J")
+--   vim.api.nvim_win_set_height(0, 5)
+--   -- Store the id of the terminal for later usage
+--   job_id = vim.bo.channel
+-- end)
 
 -- Center screen after a page jump
 vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Jump down and center" })
@@ -99,7 +103,7 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
   end
 end
 
--- Load the plugins subdirectory. See `:help runtimepath` or `:help rtp`
+-- Load the plugins directory. See `:help runtimepath` or `:help rtp`
 vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({ import = "plugins" }, {
   change_detection = {
