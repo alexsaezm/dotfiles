@@ -39,6 +39,7 @@ for entry in feed.entries:
 # Sort the entries by watched_date (the first element of the tuple)
 entries.sort()
 
+print(f'Title: Movies I watched {first_day_of_previous_month.strftime("%b '%y")}')
 print(f'I watched {len(entries)} movies in {first_day_of_previous_month.strftime("%B")}.\n')
 # Print the sorted entries
 for watched_datetime, filmTitle, filmYear, watched_date, summary in entries:
