@@ -37,6 +37,12 @@ if [ -d ~/.bashrc.d ]; then
 fi
 unset rc
 
+# Fedora's bash-color-prompt package provides a bunch of PROMPT_* variables.
+# See /usr/share/doc/bash-color-prompt/README.md.
+#
+# Show only the current directory name instead of the full path.
+PROMPT_DIRECTORY='\W'
+
 ### Secrets ###
 # Mostly for API keys. I don't keep the file in the dotfiles repository but
 # just in case, it's also gitignored. I backup it like the rest of my stuff
