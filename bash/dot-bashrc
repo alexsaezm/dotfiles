@@ -44,6 +44,14 @@ unset rc
 # Show only the current directory name instead of the full path.
 PROMPT_DIRECTORY='\W'
 
+### FZF ###
+# Set up fzf key bindings and fuzzy completion, but only if it's installed If I
+# install atuin at some point, this needs to go before or it will break it.
+if command -v fzf >/dev/null 2>&1; then
+	export FZF_ALT_C_COMMAND='find . -type d \( -path "*/.*" -o -path "*/node_modules" -o -path "*/.git" -o -path "*/vendor" \) -prune -false -o -type d'
+	eval "$(fzf --bash)"
+fi
+
 ### Secrets ###
 # Mostly for API keys. I don't keep the file in the dotfiles repository but
 # just in case, it's also gitignored. I backup it like the rest of my stuff
