@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+# Check if project name is provided
+if [ $# -ne 1 ]; then
+    echo "Usage: $0 <copr-project>" >&2
+    echo "Example: $0 golang-1.25-baseline-test" >&2
+    echo "" >&2
+    echo "Builds the current directory (Fedora package) in the specified COPR project." >&2
+    exit 1
+fi
+
+COPR_PROJECT="$1"
+
+# Check if we're in a directory with a spec file
+SPEC_FILES=(*.spec)
+if [ ! -e "${SPEC_FILES[0]}" ]; then
+    echo "Error: No .spec file found in current directory" >&2
+    echo "Please run this command from a Fedora package directory" >&2
+    exit 1
+fi
+
+# Clean old SRPMs to avoid uploading stale builds
+echo "Cleaning old SRPMs..."
+rm -f *.src.rpm
+
+# Build SRPM from current directory
+echo "Building fresh SRPM from current directory..."
+fedpkg --release rawhide srpm
+
+# Find the generated SRPM
+SRPM_FILES=(*.src.rpm)
+if [ ! -e "${SRPM_FILES[0]}" ]; then
+    echo "Error: Failed to generate SRPM" >&2
+    exit 1
+fi
+
+SRPM="${SRPM_FILES[0]}"
+echo "Generated SRPM: $SRPM"
+
+# Submit build to COPR
+echo "Submitting build to COPR project: $COPR_PROJECT"
+copr-cli build "$COPR_PROJECT" "$SRPM"
+

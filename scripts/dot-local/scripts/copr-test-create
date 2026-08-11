@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+if [ $# -ne 1 ]; then
+    echo "Usage: $0 <project-name>" >&2
+    echo "Example: $0 golang-1.26" >&2
+    exit 1
+fi
+
+BASE_NAME="$1"
+PROJECT_NAME="${BASE_NAME}-test"
+
+CHROOTS=(
+    "fedora-rawhide-x86_64"
+    "fedora-rawhide-aarch64"
+    "fedora-rawhide-ppc64le"
+    "fedora-rawhide-s390x"
+)
+
+CHROOT_ARGS=()
+for chroot in "${CHROOTS[@]}"; do
+    CHROOT_ARGS+=(--chroot "$chroot")
+done
+
+copr-cli create "$PROJECT_NAME" \
+    "${CHROOT_ARGS[@]}" \
+    --description "Here be dragons. Temporary repository for testing ${BASE_NAME}." \
+    --instructions "**Do not use at all**. This is a temporary project for testing ${BASE_NAME}." \
+    --delete-after-days 30 \
+    --unlisted-on-hp on
+
