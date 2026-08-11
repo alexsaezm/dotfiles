@@ -1,0 +1,12 @@
+[user]
+	name = Álex Sáez
+	email = alexsaezm@gmail.com
+[init]
+	defaultBranch = main
+
+[core]
+	excludesFile = ~/.gitignore_global
+
+[alias]
+	# http://blog.kfish.org/2010/04/git-lola.html
+    tree = log --graph --decorate --pretty=oneline --abbrev-commit --all

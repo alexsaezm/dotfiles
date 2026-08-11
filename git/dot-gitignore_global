@@ -1,0 +1,4 @@
+# Go documentation advises against committing these files.
+# https://go.dev/ref/mod#go-work-file
+go.work
+go.work.sum

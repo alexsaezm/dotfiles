@@ -1,0 +1,47 @@
+# .bashrc
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+	. /etc/bashrc
+fi
+
+# User specific environment
+if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/bin:" ]]; then
+	PATH="$HOME/.local/bin:$HOME/bin:$PATH"
+fi
+export PATH
+
+# Use nvim unless it is not present (usually in containers).
+if command -v nvim &> /dev/null
+then
+	EDITOR=nvim
+else
+	EDITOR=vi
+fi
+
+export EDITOR
+export VISUAL="$EDITOR"
+
+alias vi="$EDITOR"
+alias vim="$EDITOR"
+alias vimdiff="$EDITOR -d"
+
+
+# User specific aliases and functions
+if [ -d ~/.bashrc.d ]; then
+	for rc in ~/.bashrc.d/*; do
+		if [ -f "$rc" ]; then
+			. "$rc"
+		fi
+	done
+fi
+unset rc
+
+### Secrets ###
+# Mostly for API keys. I don't keep the file in the dotfiles repository but
+# just in case, it's also gitignored. I backup it like the rest of my stuff
+# with Borg.
+if [ -f "$HOME/.secrets.local" ]; then
+	source "$HOME/.secrets.local"
+fi
+

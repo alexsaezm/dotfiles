@@ -1,0 +1,5 @@
+# I don't store these files in this repository but just in case I make a
+# mistake. They are used by bash/dot-bashrc.
+.secrets.local
+secrets.local
+
