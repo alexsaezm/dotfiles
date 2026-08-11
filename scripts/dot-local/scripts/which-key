@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+echo "Press any key to see its Unicode point. Press Ctrl+C to exit."
+while IFS= read -r -s -d '' -n 1 char; do
+    case "$char" in
+        $'\n') echo "Key: Enter -> U+000A" ;;
+        $'\t') echo "Key: Tab -> U+0009" ;;
+        $'\e') echo "Key: Escape -> U+001B" ;;
+        " ")   echo "Key: Space -> U+0020" ;;
+        *)     printf "Key: %-8s -> U+%04X\n" "$char" "'$char" ;;
+    esac
+done
