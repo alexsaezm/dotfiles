@@ -6,8 +6,9 @@ if [ -f /etc/bashrc ]; then
 fi
 
 # User specific environment
-if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/bin:" ]]; then
-	PATH="$HOME/.local/bin:$HOME/bin:$PATH"
+export GOPATH="$HOME/Code"
+if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/.local/scripts:$HOME/bin:$GOPATH/bin" ]]; then
+	PATH="$HOME/.local/bin:$HOME/.local/scripts:$HOME/bin:$GOPATH/bin:$PATH"
 fi
 export PATH
 

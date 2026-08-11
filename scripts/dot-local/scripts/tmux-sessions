@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+
+# Inspired by ThePrimeagen's script but better because it's mine.
+# Requires tmux and fzf.
+
+set -eu
+
+generate_session_name() {
+    local dir="$1"
+
+    # Use the last three path components and replace dots with dashes.
+    printf '%s\n' "$dir" |
+        awk -F/ '{ print $(NF-2) "/" $(NF-1) "/" $NF }' |
+        tr '.' '-'
+}
+
+# I always follow the GOPATH approach:
+# <forge>/<username>/<project>
+export FZF_ALT_C_COMMAND='find ~/Code/src/ -mindepth 3 -maxdepth 3 -type d'
+
+# --tmux is silently ignored when fzf is not running inside tmux.
+project_dir=$(eval "$FZF_ALT_C_COMMAND" | fzf --tmux 90%,90%) || exit 0
+project_name=$(generate_session_name "$project_dir")
+
+if tmux has-session -t="$project_name" 2>/dev/null; then
+    if [[ -n ${TMUX:-} ]]; then
+        exec tmux switch-client -t "$project_name"
+    else
+        exec tmux attach-session -t "$project_name"
+    fi
+fi
+
+if [[ -n ${TMUX:-} ]]; then
+    tmux new-session -ds "$project_name" -c "$project_dir"
+    exec tmux switch-client -t "$project_name"
+else
+    exec tmux new-session -s "$project_name" -c "$project_dir"
+fi
