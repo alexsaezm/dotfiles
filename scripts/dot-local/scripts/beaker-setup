@@ -1,0 +1,23 @@
+#!/usr/bin/env -S ansible-playbook -i "beaker," -e ansible_python_interpreter=auto_silent
+# vim: set ft=yaml ts=2 sw=2 et:
+---
+- name: Setup beaker host
+  hosts: all
+
+  vars:
+    packages:
+      - make
+      - git
+      - curl
+      - wget
+      - golang
+      - rsync
+      - lsof
+
+  tasks:
+    - name: Ensure packages are installed
+      ansible.builtin.dnf:
+        name: "{{ packages }}"
+        state: latest
+        update_cache: true
+      become: true
