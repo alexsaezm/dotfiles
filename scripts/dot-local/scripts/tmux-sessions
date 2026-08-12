@@ -16,7 +16,7 @@ generate_session_name() {
 
 # I always follow the GOPATH approach:
 # <forge>/<username>/<project>
-export FZF_ALT_C_COMMAND='find ~/Code/src/ -mindepth 3 -maxdepth 3 -type d'
+export FZF_ALT_C_COMMAND='find ~/Projects/src/ -mindepth 3 -maxdepth 3 -type d'
 
 # --tmux is silently ignored when fzf is not running inside tmux.
 project_dir=$(eval "$FZF_ALT_C_COMMAND" | fzf --tmux 90%,90%) || exit 0

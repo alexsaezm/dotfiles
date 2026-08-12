@@ -6,7 +6,9 @@ if [ -f /etc/bashrc ]; then
 fi
 
 # User specific environment
-export GOPATH="$HOME/Code"
+export GOPATH="$HOME/Projects"
+# GOCACHE is set by default to $HOME/.cache/go-cache so let's put GOMODCACHE near and out of my Projects
+export GOMODCACHE="$HOME/.cache/go-mod"
 if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/.local/scripts:$HOME/bin:$GOPATH/bin" ]]; then
 	PATH="$HOME/.local/bin:$HOME/.local/scripts:$HOME/bin:$GOPATH/bin:$PATH"
 fi
