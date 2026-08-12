@@ -32,3 +32,10 @@ that start with `dot-`. Stow will replace that part with a `.`, making them
 hidden. Years ago, when I started using Stow, I was using hidden files
 directly, but that turned out to be a pain in the butt to handle.
 
+## Legal stuff
+
+This repository is licensed under the GNU General Public License v3.0 or later.
+See [LICENSE](LICENSE) for details.
+
+Third-party files, if any are added in the future, retain their original
+copyright and license.
