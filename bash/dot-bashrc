@@ -6,11 +6,11 @@ if [ -f /etc/bashrc ]; then
 fi
 
 # User specific environment
-export GOPATH="$HOME/Projects"
-# GOCACHE is set by default to $HOME/.cache/go-cache so let's put GOMODCACHE near and out of my Projects
-export GOMODCACHE="$HOME/.cache/go-mod"
-if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/.local/scripts:$HOME/bin:$GOPATH/bin" ]]; then
-	PATH="$HOME/.local/bin:$HOME/.local/scripts:$HOME/bin:$GOPATH/bin:$PATH"
+# Keep Go-managed files out of Projects while retaining the source workspace.
+export GOPATH="$HOME/.cache/go:$HOME/Projects"
+export GOBIN="$HOME/.local/bin"
+if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/.local/scripts:$HOME/bin" ]]; then
+	PATH="$HOME/.local/bin:$HOME/.local/scripts:$HOME/bin:$PATH"
 fi
 export PATH
 
@@ -61,4 +61,3 @@ fi
 if [ -f "$HOME/.secrets.local" ]; then
 	source "$HOME/.secrets.local"
 fi
-
